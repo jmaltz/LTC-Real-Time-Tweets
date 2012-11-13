@@ -30,12 +30,36 @@ function addHashtagToSearch(hashtag){
 }
 
 function subscribeToHashtag(hashtag, socket){
+    var added = addHashtagToSearch(hashtag);
+    removeSocket(socket);
+    if(added){
+	hashtagMessaging = {};
+	hashtagMessaging.subscribers = new Array();
+	hashtagMessaging.messages = new Array();
+	hashtagSubscribers[hashtag] = hashtagMessaging
+    }
+    var subscriberList = hashtagSubscribers[hashtag].subscribers;
+    subscriberList.push(socket);
+}
+
+/*Removes the socket so that it is only sitting on one hashtag*/
+function removeSocket(socket){
+
+    for(var key in hashtagSubscribers){ //get all the keys in our hashtag subscribers
+	var subscribers = hashtagSubscribers[key];
+	for(var i = 0; i<subscribers.length; i++){ //iterate over all of the subscribers and remove all sockets that match the parameter
+	    if(subscribers[i] == socket){
+		subscribers.splice(i,1);
+		i--; //subtract one to make up for the shorter length
+	    }
+	}
+    }
 
 }
 
 
 function onRequestComplete(body, hashtag){
-    
+    var tweets = JSON.parse(body);
 }
 
 exports.addHashtag = addHashtagToSearch;

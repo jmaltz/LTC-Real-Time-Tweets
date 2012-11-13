@@ -7,3 +7,4 @@ result = twitterRequest.addHashtag("hello");
 console.log("result 2 is " + result);
 result = twitterRequest.addHashtag("goodbye");
 console.log("result 3 is " + result);
+
