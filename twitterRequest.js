@@ -1,10 +1,11 @@
 var cronJob = require('cron').CronJob,
-request = require('request');
-config = require('./config').config;
+request = require('request'),
+config = require('./config').config,
+util = require('./util');
 
 var searchingHashtags = {};
 var hashtagSubscribers = {};
-
+var approvedCache = {};
 
 var messager = {};
 messager.subscribers = new Array();
@@ -42,8 +43,10 @@ function subscribeToHashtag(hashtag, socket){
     
     var subscriberList = hashtagSubscribers[hashtag];
     subscriberList.subscribers.push(socket);
-    updateHashtag(hashtag);
-    escapeAndEmitTweets(socket, subscriberList.messages, 'seed-messages'); 
+    if(added){
+	updateHashtag(hashtag);
+    }
+    util.escapeAndEmitTweets(socket, subscriberList.messages, 'seed-messages'); 
 }
 
 /*Removes the socket so that it is only sitting on one hashtag*/
@@ -60,7 +63,6 @@ function removeSocket(socket){
     }
 
 }
-
 
 function onRequestComplete(body, hashtag){
     var tweets = JSON.parse(body).results;
@@ -84,52 +86,19 @@ function onRequestComplete(body, hashtag){
     }
 
     for(var i = 0; i < hashtagMessager.subscribers.length; i++){
-	escapeAndEmitTweets(hashtagMessager.subscribers[i], resultsToAdd, 'new-tweets'); 	
+	util.escapeAndEmitTweets(hashtagMessager.subscribers[i], resultsToAdd, 'new-tweets'); 	
     }
-    var newMessages = spliceArrayToLength(storedMessages, resultsToAdd);
+    var newMessages = util.spliceArrayToLength(storedMessages, resultsToAdd);
     hashtagMessager.messages = newMessages;
  
 }
 
-function escapeAndEmitTweets(socket, tweetsToEmit, socketEvent){
-    var stringifiedResults = JSON.stringify(tweetsToEmit);
-    var cleanStringified = filterUnicode(stringifiedResults);
-   
-    socket.emit(socketEvent, {'new-tweets': cleanStringified});
-}
-
-function spliceArrayToLength(arrayToSplice, arrayToAdd){
-    if (arrayToSplice.length == config.tweetsToCache){
-	arrayToSplice.splice(config.tweetsToCache  - arrayToAdd.length, arrayToAdd.length);
-    }else if(arrayToSplice.length + arrayToAdd.length > config.tweetsToCache){
-	var combinedLen = arrayToSplice.length + arrayToAdd.length;
-	var locationToStart = config.tweetsToCache - combinedLen;
-	arrayToSplice.splice(locationToStart, locationToStart * -1);
-    }
-    for(var i = 0; i<arrayToSplice.length; i++){
-	arrayToAdd.push(arrayToSplice[i]);
-    }
-    return arrayToAdd;
-
-}
-
+/*Returns the currently cached tweets for a given hashtag*/
 function getTweetsForHashtag(hashtag){
     return hashtagSubscribers[hashtag].messages;
 }
 
-
-
-function filterUnicode(quoted){
-    var escapable = /[\x00-\x1f\ud800-\udfff\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufff0-\uffff]/g;
-
-    escapable.lastIndex = 0;
-    if( !escapable.test(quoted)) return quoted;
-
-    return quoted.replace( escapable, function(a){
-	return '';
-    });
-}
-
+/*Sends a request to twitter and gets the latest tweets for a given hashtag*/
 function updateHashtag(hashtag){
     request("http://search.twitter.com/search.json?q=" + encodeURIComponent('#' + hashtag) + "&" + "rpp="+config.tweetsToCache, function(error, response, body){
 		    if(error || response.statusCode != 200){
@@ -141,7 +110,6 @@ function updateHashtag(hashtag){
 		});
 }
 
-exports.spliceArrayToLength = spliceArrayToLength;
 exports.requestComplete = onRequestComplete;
 exports.addHashtag = addHashtagToSearch;
 exports.subscribe = subscribeToHashtag;
