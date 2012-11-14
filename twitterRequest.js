@@ -19,7 +19,7 @@ function addHashtagToSearch(hashtag){
 	var options = {
 	    "cronTime": "0/30 * * * * *",
 	    "onTick": function() { 
-		request("http://search.twitter.com/search.json?q=" + encodeURIComponent('#' + hashtag) + "&" + "rpp=20", function(error, response, body){
+		request("http://search.twitter.com/search.json?q=" + encodeURIComponent('#' + hashtag) + "&" + "rpp="+config.tweetsToCache, function(error, response, body){
 		    if(error || response.statusCode != 200){
 			console.log("error while searching for " + hashtag);
 		    }
@@ -79,16 +79,16 @@ function onRequestComplete(body, hashtag){
     var i = 0;
     var resultsToAdd = new Array();
     for(; i<tweets.length; i++){
-	if(storedMessages[0].id == tweets[i].id){
-	    break;
-	}
+				if(storedMessages[0].id == tweets[i].id){
+						break;
+				}
 
-	var tweetToAdd = {
-	    'id':tweets[i].id,
-	    'text':tweets[i].text,
-	    'image':tweets[i].profile_image_url
-	};
-	resultsToAdd.push(tweetToAdd);
+				var tweetToAdd = {
+						'id':tweets[i].id,
+						'text':tweets[i].text,
+						'image':tweets[i].profile_image_url
+				};
+				resultsToAdd.push(tweetToAdd);
     }
 
     var newMessages = spliceArrayToLength(storedMessages, resultsToAdd);
@@ -97,23 +97,19 @@ function onRequestComplete(body, hashtag){
 
 function spliceArrayToLength(arrayToSplice, arrayToAdd){
     
-    if(arrayToSplice.length + arrayToAdd.length <= tweetsToCache){
-	for(var i = 0; i<arrayToSplice.length; i++){
-	    arrayToAdd.push(arrayToSplice[i]);
-	}
+    if (arrayToSplice.length == config.tweetsToCache){
+				arrayToSplice.splice(config.tweetsToCache  - arrayToAdd.length, arrayToAdd.length);
     }
-    else if (arrayToSplice.length == config.tweetsToCache){
-	arrayToSplice.splice(config.tweetsToCache - 1 - arrayToAdd.length, arrayToAdd.length);
-	for(var i = 0; i<arrayToSplice.length; i++){
-	    arrayToAdd.push(arrayToSplice[i]);
-	}
+		else if(arrayToSplice.length + arrayToAdd.length > config.tweetsToCache){
+				var combinedLen = arrayToSplice.length + arrayToAdd.length;
+				var locationToStart = config.tweetsToCache - combinedLen;
+				arrayToSplice.splice(locationToStart, locationToStart * -1);
     }
-    else{
-	for(var i = 0; arrayToSplice.length < config.tweetsToCache; i++){
-	    arrayToAdd.push(arrayToSplice[i]);
-	}
-    }
-    return arrayToAdd;
+    
+		for(var i = 0; i<arrayToSplice.length; i++){
+				arrayToAdd.push(arrayToSplice[i]);
+		}
+		return arrayToAdd;
 
 }
 
@@ -121,7 +117,7 @@ function getTweetsForHashtag(hashtag){
     return hashtagSubscribers[hashtag].messages;
 }
 
-
-exports.requestComplete = onRequestComplete
+exports.spliceArrayToLength = spliceArrayToLength;
+exports.requestComplete = onRequestComplete;
 exports.addHashtag = addHashtagToSearch;
 exports.subscribe = subscribeToHashtag;

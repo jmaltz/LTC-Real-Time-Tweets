@@ -7,11 +7,13 @@ var tweetOne = {
     'text': "hi",
     'image': "herp"
 };
+
 var tweetTwo= {
     'id':2,
     'text': "hi",
     'image': "herp"
 };
+
 var tweetThree = {
     'id':3,
     'text': "hi",
@@ -24,8 +26,10 @@ var tweetFour = {
     'image': "herp"
 };
 
-var firstSet = [tweetOne, tweetTwo, tweetThree];
-var secondSet = [tweetTwo, tweetThree, tweetFour];
+var firstSet = [tweetOne, tweetTwo];
+var secondSet = [tweetTwo, tweetThree];
 
-twitterRequest.requestComplete(JSON.stringify({results: firstSet}), "photography");
-twitterRequest.requestComplete(JSON.stringify({results: secondSet}), "photography");
+var arrayToLength = twitterRequest.spliceArrayToLength(new Array(), firstSet);
+console.log(arrayToLength);
+arrayToLength = twitterRequest.spliceArrayToLength(arrayToLength, secondSet);
+console.log(arrayToLength);
