@@ -47,6 +47,9 @@ function subscribeToHashtag(hashtag, socket){
     if(added){
 	updateHashtag(hashtag);
     }
+    else{
+	socket.emit('seed-approvals', {'approvals': approvedCache[hashtag]});
+    }
     util.escapeAndEmitTweets(socket, subscriberList.messages, 'seed-messages'); 
 }
 

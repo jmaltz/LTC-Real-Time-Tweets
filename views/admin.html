@@ -38,6 +38,16 @@ socket.on('seed-messages', function(message){
 appendTweets(message);
 });
 
+socket.on('seed-approvals', function(message){
+var approvals = message.approvals;
+var appendLoc =  $("#approved-tweets-content");
+
+for(var i = 0; i< approvals.length; i++){
+appendApproved(approvals[i], appendLoc);
+}
+
+});
+
 socket.on('new-tweets', function(message){
 appendTweets(message);
 });
