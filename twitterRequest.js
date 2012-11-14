@@ -18,7 +18,7 @@ function addHashtagToSearch(hashtag){
 	var options = {
 	    "cronTime": "0/30 * * * * *",
 	    "onTick": function() { 
-		request("http://search.twitter.com/search.json?q=" + encodeURIComponent('#' + hashtag) + "&" + "rpp=5", function(error, response, body){
+		request("http://search.twitter.com/search.json?q=" + encodeURIComponent('#' + hashtag) + "&" + "rpp=20", function(error, response, body){
 		    if(error || response.statusCode != 200){
 			console.log("error while searching for " + hashtag);
 		    }
