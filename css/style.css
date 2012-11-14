@@ -2,6 +2,8 @@
     clear: both;
     padding-top: 5px;
     padding-bottom: 5px;
+    float: left;
+    width: 100%;
 }
 
 .individual-tweet{
@@ -12,4 +14,15 @@
     float: right;
     margin-top: 10px;
     vertical-align: center;
+}
+
+#approved-tweets{
+   padding-left: 20px;
+   float: left;
+   width: 45%;
+}
+
+#tweets{
+    width: 45%;
+    float: left;
 }

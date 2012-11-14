@@ -15,18 +15,10 @@ hashtagSubscribers.photography = messager;
 
 function addHashtagToSearch(hashtag){
   if(searchingHashtags[hashtag] == undefined || searchingHashtags[hashtag] == null){
-      console.log("starting a Cron yo!");
 	var options = {
 	    "cronTime": "0/30 * * * * *",
 	    "onTick": function() { 
-		request("http://search.twitter.com/search.json?q=" + encodeURIComponent('#' + hashtag) + "&" + "rpp="+config.tweetsToCache, function(error, response, body){
-		    if(error || response.statusCode != 200){
-			console.log("error while searching for " + hashtag);
-		    }
-		    else{
-			onRequestComplete(body, hashtag);
-		    }
-		});
+		updateHashtag(hashtag);
 	    },
 	    "start": true
 	};
@@ -40,17 +32,18 @@ function addHashtagToSearch(hashtag){
 function subscribeToHashtag(hashtag, socket){
     var added = addHashtagToSearch(hashtag);
     removeSocket(socket);
-   
+    
     if(added){
-				hashtagMessaging = {};
-				hashtagMessaging.subscribers = new Array();
-				hashtagMessaging.messages = new Array();
-				hashtagSubscribers[hashtag] = hashtagMessaging
+	hashtagMessaging = {};
+	hashtagMessaging.subscribers = new Array();
+	hashtagMessaging.messages = new Array();
+	hashtagSubscribers[hashtag] = hashtagMessaging;
     }
     
     var subscriberList = hashtagSubscribers[hashtag];
     subscriberList.subscribers.push(socket);
-    socket.emit('seed-messages', {'new-tweets': subscriberList.messages}); 
+    updateHashtag(hashtag);
+    escapeAndEmitTweets(socket, subscriberList.messages, 'seed-messages'); 
 }
 
 /*Removes the socket so that it is only sitting on one hashtag*/
@@ -70,7 +63,6 @@ function removeSocket(socket){
 
 
 function onRequestComplete(body, hashtag){
-    console.log("COMPLETED A REQUEST YO!!!");
     var tweets = JSON.parse(body).results;
     var hashtagMessager = hashtagSubscribers[hashtag];
     var storedMessages = hashtagMessager.messages;
@@ -91,22 +83,22 @@ function onRequestComplete(body, hashtag){
 	resultsToAdd.push(tweetToAdd);
     }
 
-    var stringifiedResults = JSON.stringify(resultsToAdd);
-    var cleanStringified = filterUnicode(stringifiedResults);
-
+    for(var i = 0; i < hashtagMessager.subscribers.length; i++){
+	escapeAndEmitTweets(hashtagMessager.subscribers[i], resultsToAdd, 'new-tweets'); 	
+    }
     var newMessages = spliceArrayToLength(storedMessages, resultsToAdd);
     hashtagMessager.messages = newMessages;
  
-    for(var i = 0; i < hashtagMessager.subscribers.length; i++){
-	hashtagMessager.subscribers[i].emit('new-tweets', {'new-tweets': cleanStringified});
-	
-    }
 }
 
-
+function escapeAndEmitTweets(socket, tweetsToEmit, socketEvent){
+    var stringifiedResults = JSON.stringify(tweetsToEmit);
+    var cleanStringified = filterUnicode(stringifiedResults);
+   
+    socket.emit(socketEvent, {'new-tweets': cleanStringified});
+}
 
 function spliceArrayToLength(arrayToSplice, arrayToAdd){
-    console.log('arrayToAdd\'s length is ' + arrayToAdd.length);
     if (arrayToSplice.length == config.tweetsToCache){
 	arrayToSplice.splice(config.tweetsToCache  - arrayToAdd.length, arrayToAdd.length);
     }else if(arrayToSplice.length + arrayToAdd.length > config.tweetsToCache){
@@ -136,6 +128,17 @@ function filterUnicode(quoted){
     return quoted.replace( escapable, function(a){
 	return '';
     });
+}
+
+function updateHashtag(hashtag){
+    request("http://search.twitter.com/search.json?q=" + encodeURIComponent('#' + hashtag) + "&" + "rpp="+config.tweetsToCache, function(error, response, body){
+		    if(error || response.statusCode != 200){
+			console.log("error while searching for " + hashtag);
+		    }
+		    else{
+			onRequestComplete(body, hashtag);
+		    }
+		});
 }
 
 exports.spliceArrayToLength = spliceArrayToLength;

@@ -29,7 +29,7 @@ function appendApproved(tweetToAppend, appendTo){
 		       '<div class="left-image pull-left">' +
 		       '<img src="' + tweetToAppend.image +'"/>' +
 		       '</div>' +
-		       '<div class="approved-tweet">' +
+		       '<div class="approved-information">' +
 		       '<div class="user">' + tweetToAppend.username + '</div>' +
 		       '<div class="individual-tweet">' + tweetToAppend.tweet + '</div>'+
 		       '</div>').fadeIn('fast'));
