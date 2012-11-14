@@ -63,6 +63,8 @@ appendApproved(message, $("#approved-tweets-content"));
 	var hashtagToSearch = $("#hashtag-to-search").val();
 	if(hashtagToSearch !== currentHashtag && hashtagToSearch !== ""){
 	currentHashtag = hashtagToSearch;
+	$("#approved-tweets-content").empty();
+	$("#tweets-content").empty();
 	socket.emit('subscribe', {'hashtag':currentHashtag});
 	}
 	});
