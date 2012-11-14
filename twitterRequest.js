@@ -1,7 +1,7 @@
-var cronJob = require('cron').CronJob,
-request = require('request'),
-config = require('./config').config,
-util = require('./util');
+var cronJob = require('cron').CronJob;
+var request = require('request');
+var config = require('./config').config;
+var util = require('./util');
 
 var searchingHashtags = {};
 var hashtagSubscribers = {};
@@ -35,6 +35,7 @@ function subscribeToHashtag(hashtag, socket){
     removeSocket(socket);
     
     if(added){
+	approvedCache[hashtag] = new Array();
 	hashtagMessaging = {};
 	hashtagMessaging.subscribers = new Array();
 	hashtagMessaging.messages = new Array();
@@ -110,6 +111,19 @@ function updateHashtag(hashtag){
 		});
 }
 
+function addApprovedTweet(hashtag, tweetInformation){
+    console.log("do we add this??");
+    console.log("hashtag is " + hashtag);
+    if(approvedCache[hashtag] == undefined){
+	return false;
+    }
+    var listOfApprovedTweets = approvedCache[hashtag];
+    listOfApprovedTweets.push(tweetInformation);
+    console.log(listOfApprovedTweets);
+    return true;
+}
+
+exports.addApprovedTweet = addApprovedTweet;
 exports.requestComplete = onRequestComplete;
 exports.addHashtag = addHashtagToSearch;
 exports.subscribe = subscribeToHashtag;

@@ -13,7 +13,10 @@ function onConnectionReceived(socket){
     });
 
     socket.on('approve', function(message){
-	socket.broadcast.emit('approved', message);
+	var approvedHashtag = message.hashtag;
+	var approvedTweet = message.tweet;
+	socket.broadcast.emit('approved', approvedTweet);
+	twitterRequest.addApprovedTweet(approvedHashtag, approvedTweet);
     });
 }
 

@@ -1,4 +1,4 @@
-
+var config = require("./config").config;
 function spliceArrayToLength(arrayToSplice, arrayToAdd){
     if (arrayToSplice.length == config.tweetsToCache){
 	arrayToSplice.splice(config.tweetsToCache  - arrayToAdd.length, arrayToAdd.length);
@@ -32,6 +32,6 @@ function escapeAndEmitTweets(socket, tweetsToEmit, socketEvent){
     socket.emit(socketEvent, {'new-tweets': cleanStringified});
 }
 
-exports.escapeandEmitTweets = escapeAndEmitTweets;
+exports.escapeAndEmitTweets = escapeAndEmitTweets;
 exports.spliceArrayToLength = spliceArrayToLength;
 exports.filterUnicode = filterUnicode;
