@@ -30,7 +30,7 @@ function admin(response){
 		});
 }
 
-function javascript(response, pathname){
+function asset(response, pathname){
     fs.readFile(__dirname + pathname, function(error, data){
 	if(!error){
 	    response.writeHead(200);
@@ -39,14 +39,14 @@ function javascript(response, pathname){
 	}
 	else{
 	    response.writeHead(500);
-	    response.write("Error, that requested javascript file wasn't stored");
+	    response.write("Error, that requested asset file wasn't stored");
 	    response.end();
 	}
-
     });
-
 }
 
-exports.javascript = javascript;
+
+
+exports.asset = asset;
 exports.admin = admin;
 exports.index = index;

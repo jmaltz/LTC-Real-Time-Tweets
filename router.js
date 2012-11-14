@@ -1,8 +1,10 @@
 function route(path, handlers, response){
-    if(path.indexOf("/js") === 0){
-	console.log("are we here??");
+    if(path.indexOf('/js') === 0){
 	handlers['/js'](response, path);
-    }		   	
+    }
+    else if(path.indexOf('/css') === 0){
+	handlers['/css'](response, path);
+    }
     else if(typeof handlers[path] == 'function'){
 	handlers[path](response);
     }

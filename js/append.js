@@ -6,14 +6,13 @@ function appendTweets(tweetsToAppend){
     }catch(error){
 	console.log("JSON Error");
     }
-    for(var i = 0; i < tweetsToAppend.length; i++){
-	console.log("Looping like a bawz");
+    for(var i = 0; i < 2 && i < tweetsToAppend.length; i++){
 	$('#tweets').append('<div class="tweet">' +
-			    '<div class="left-image"> ' +
+			    '<div class="left-image pull-left"> ' +
 			    '<img src="' + tweetsToAppend[i].image + '"/>' +
 			    '</div>' +
 			    '<div class="individual-tweet">' +
-			    '<div class="user">' + tweetsToAppend[i] +
+			    '<div class="user">' + tweetsToAppend[i].from +
 			    '</div>' +
 			    '<div class="tweet-content">' +
 			    tweetsToAppend[i].text +
