@@ -1,5 +1,6 @@
 var cronJob = require('cron').CronJob,
 request = require('request');
+config = require('./config').config;
 
 var searchingHashtags = {};
 var hashtagSubscribers = {};
@@ -8,7 +9,7 @@ var hashtagSubscribers = {};
 var messager = {};
 messager.subscribers = new Array();
 messager.messages = new Array();
-messager.messages.push({'id':1});
+messager.messages.push({'id':-1});
 
 hashtagSubscribers.photography = messager;
 
@@ -69,7 +70,6 @@ function removeSocket(socket){
 
 
 function onRequestComplete(body, hashtag){
-    console.log(body);
     var tweets = JSON.parse(body).results;
     var hashtagMessager = hashtagSubscribers[hashtag];
     var storedMessages = hashtagMessager.messages;
@@ -91,26 +91,37 @@ function onRequestComplete(body, hashtag){
 	resultsToAdd.push(tweetToAdd);
     }
 
-
-    if(i < storedMessages.length){
-	storedMessages.splice(storedMessages.length - 1 - i, i);
-    }
-    else{
-	storedMessages = new Array();
-    }
-    console.log(" i is " + i);
-    console.log("length of leftover messages is " + storedMessages.length);
-    for(var j = 0; j< hashtagMessager.subscribers.length; j++){
-	hashtagMessager.subscribers[j].emit({'update': resultsToAdd});
-    }
-    console.log("length of resultsToAdd is " + resultsToAdd.length);
-    for(var j = 0; i<storedMessages.length; i++){
-	resultsToAdd.push(storedMessages[j]);
-    }
-    hashtagSubscribers[hashtag].messages = resultsToAdd;
-    
-    
+    var newMessages = spliceArrayToLength(storedMessages, resultsToAdd);
+    hashtagMessager.messages = newMessages;
 }
 
+function spliceArrayToLength(arrayToSplice, arrayToAdd){
+    
+    if(arrayToSplice.length + arrayToAdd.length <= tweetsToCache){
+	for(var i = 0; i<arrayToSplice.length; i++){
+	    arrayToAdd.push(arrayToSplice[i]);
+	}
+    }
+    else if (arrayToSplice.length == config.tweetsToCache){
+	arrayToSplice.splice(config.tweetsToCache - 1 - arrayToAdd.length, arrayToAdd.length);
+	for(var i = 0; i<arrayToSplice.length; i++){
+	    arrayToAdd.push(arrayToSplice[i]);
+	}
+    }
+    else{
+	for(var i = 0; arrayToSplice.length < config.tweetsToCache; i++){
+	    arrayToAdd.push(arrayToSplice[i]);
+	}
+    }
+    return arrayToAdd;
+
+}
+
+function getTweetsForHashtag(hashtag){
+    return hashtagSubscribers[hashtag].messages;
+}
+
+
+exports.requestComplete = onRequestComplete
 exports.addHashtag = addHashtagToSearch;
 exports.subscribe = subscribeToHashtag;
