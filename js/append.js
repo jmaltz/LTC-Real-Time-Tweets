@@ -19,7 +19,20 @@ function appendTweets(tweetsToAppend){
 			    tweetsToAppend[i].text +
 			    '</div>' +
 			    '</div>' +
-			       '</div>').fadein('fast'));
-    }
-    
+			       '</div>').fadeIn('fast'));
+    }    
+}
+
+function appendApproved(tweetToAppend, appendTo){
+    appendTo.prepend($('<div class="tweet">'+
+		       '<div class="approved-tweet">' +
+		       '<div class="left-image pull-left">' +
+		       '<img src="' + tweetToAppend.image +'"/>' +
+		       '</div>' +
+		       '<div class="approved-tweet">' +
+		       '<div class="user">' + tweetToAppend.username + '</div>' +
+		       '<div class="individual-tweet">' + tweetToAppend.tweet + '</div>'+
+		       '</div>').fadeIn('fast'));
+		       
+
 }

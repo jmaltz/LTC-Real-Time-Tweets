@@ -1,6 +1,13 @@
 <html>
 <head>
 <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="js/append.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
+<link rel="stylesheet" type="text/css" href="/css/style.css" />
+
+
 </head>
 <body>
 This is my index!!!
@@ -12,8 +19,10 @@ This is my index!!!
 var socket = io.connect();
 
 socket.on('approved', function(message){
-console.log(message);
+appendApproved(message, $("#tweets"));
 });
+
+
 
 </script>
 </html>
