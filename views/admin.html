@@ -6,6 +6,7 @@
 
 <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
 <link rel="stylesheet" type="text/css" href="/css/style.css" />
+
 </head>
 <body>
 This my admin page!!
@@ -15,7 +16,7 @@ This my admin page!!
 
 <div id="tweets">
 
-</div>
+<div class="tweet"><button class="btn btn-success approve-btn">Approve</button><div class="left-image pull-left"> <img src="http://a0.twimg.com/profile_images/1320830796/SelimDizdar_normal.jpg"></div><div class="individual-tweet"><div class="user">SelimDizdar</div><div class="tweet-content">Many of our customers use Basecamp- some use #Basecamp Next and some use Basecamp Classic. http://t.co/MYitCdvT</div></div></div><div class="tweet"><button class="btn btn-success approve-btn">Approve</button><div class="left-image pull-left"> <img src="http://a0.twimg.com/profile_images/2825439005/98f8b62f3f391ca134770c99da74d4ed_normal.jpeg"></div><div class="individual-tweet"><div class="user">robzdaholicz</div><div class="tweet-content">Pijut... (@ #MoalMundur #BaseCamp) http://t.co/8PrlClX3</div></div></div></div>
 </body>
 
 
@@ -23,13 +24,10 @@ This my admin page!!
 var socket = io.connect();
 
 socket.on('seed-messages', function(message){
-console.log("appending seeds");
 appendTweets(message);
 });
 
 socket.on('new-tweets', function(message){
-console.log("appending new tweets");
-console.log(message);
 appendTweets(message);
 });
 </script>
@@ -42,6 +40,16 @@ appendTweets(message);
 	currentHashtag = hashtagToSearch;
 	socket.emit('subscribe', {'hashtag':currentHashtag});
 	}
+	});
+
+	$('#tweets').on('click', '.approve-btn', function(){
+	var parent = $(this).parent('.tweet');
+	var image = parent.find('.left-image > img').attr('src');
+	var username = parent.find('.user').text();
+	var tweet = parent.find('.tweet-content').text();
+	socket.emit('approve', {'tweet': tweet,
+	'username': username,
+	'image': image});
 	});
 </script>
 

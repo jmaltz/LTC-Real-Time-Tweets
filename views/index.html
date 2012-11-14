@@ -11,5 +11,9 @@ This is my index!!!
 <script type="text/javascript">
 var socket = io.connect();
 
+socket.on('approved', function(message){
+console.log(message);
+});
+
 </script>
 </html>

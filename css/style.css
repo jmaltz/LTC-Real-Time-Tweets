@@ -1,9 +1,15 @@
 .tweet{
-    clear:both;
+    clear: both;
     padding-top: 5px;
     padding-bottom: 5px;
 }
 
 .individual-tweet{
-    padding-left:5px;
+    margin-left: 15px;
+}
+
+.approve-btn{
+    float: right;
+    margin-top: 10px;
+    vertical-align: center;
 }

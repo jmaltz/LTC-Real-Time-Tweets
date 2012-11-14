@@ -91,23 +91,25 @@ function onRequestComplete(body, hashtag){
 	resultsToAdd.push(tweetToAdd);
     }
 
-    var newMessages = spliceArrayToLength(storedMessages, resultsToAdd);
-    hashtagMessager.messages = newMessages;
     var stringifiedResults = JSON.stringify(resultsToAdd);
     var cleanStringified = filterUnicode(stringifiedResults);
 
+    var newMessages = spliceArrayToLength(storedMessages, resultsToAdd);
+    hashtagMessager.messages = newMessages;
+ 
     for(var i = 0; i < hashtagMessager.subscribers.length; i++){
 	hashtagMessager.subscribers[i].emit('new-tweets', {'new-tweets': cleanStringified});
 	
     }
 }
 
+
+
 function spliceArrayToLength(arrayToSplice, arrayToAdd){
-    console.log("arrayToAdd's length is " + arrayToAdd.length);
+    console.log('arrayToAdd\'s length is ' + arrayToAdd.length);
     if (arrayToSplice.length == config.tweetsToCache){
 	arrayToSplice.splice(config.tweetsToCache  - arrayToAdd.length, arrayToAdd.length);
-    }
-    else if(arrayToSplice.length + arrayToAdd.length > config.tweetsToCache){
+    }else if(arrayToSplice.length + arrayToAdd.length > config.tweetsToCache){
 	var combinedLen = arrayToSplice.length + arrayToAdd.length;
 	var locationToStart = config.tweetsToCache - combinedLen;
 	arrayToSplice.splice(locationToStart, locationToStart * -1);

@@ -12,9 +12,9 @@ function onConnectionReceived(socket){
 				twitterRequest.subscribe(message.hashtag, socket);	
     });
 
-		socket.on('approve', function(message){
-				socket.broadcast.emit('approved', message);
-		});
+    socket.on('approve', function(message){
+	socket.broadcast.emit('approved', message);
+    });
 }
 
 

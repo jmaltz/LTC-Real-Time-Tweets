@@ -1,13 +1,14 @@
+
 function appendTweets(tweetsToAppend){
     var newTweets = tweetsToAppend["new-tweets"];
-    console.log(newTweets + " is newTweets");
     try{
 	tweetsToAppend = JSON.parse(newTweets);
     }catch(error){
 	console.log("JSON Error");
     }
     for(var i = 0; i < 2 && i < tweetsToAppend.length; i++){
-	$('#tweets').append('<div class="tweet">' +
+	$('#tweets').prepend($('<div class="tweet">' +
+			    '<button class="btn btn-success approve-btn">Approve</button>' +
 			    '<div class="left-image pull-left"> ' +
 			    '<img src="' + tweetsToAppend[i].image + '"/>' +
 			    '</div>' +
@@ -18,7 +19,7 @@ function appendTweets(tweetsToAppend){
 			    tweetsToAppend[i].text +
 			    '</div>' +
 			    '</div>' +
-			    '</div>');
+			       '</div>').fadein('fast'));
     }
     
 }
