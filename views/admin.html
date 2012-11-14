@@ -9,17 +9,23 @@
 
 </head>
 <body>
-This my admin page!!
 <div id="search-bar">
-<input type="text" id="hashtag-to-search" /><button id="hashtag-submit">Submit</button>
+<input type="text" id="hashtag-to-search" /><button id="hashtag-submit" class="btn">Submit</button>
 </div>
-<div style="position:relative;">
+<div class="wrapper">
 <div id="tweets">
-
+<h3>Timeline</h3>
+<div id="tweets-content">
+</div>
+</div>
 </div>
 
+<div class="wrapper">
 <div id="approved-tweets" class="pull-left">
+<h3>Sent Tweets</h3>
+<div id="approved-tweets-content">
 
+</div>
 </div>
 </div>
 </body>
@@ -37,8 +43,7 @@ appendTweets(message);
 });
 
 socket.on('approved', function(message){
-console.log("into this??");
-appendApproved(message, $("#approved-tweets"));
+appendApproved(message, $("#approved-tweets-content"));
 });
 </script>
 
@@ -62,7 +67,7 @@ appendApproved(message, $("#approved-tweets"));
 	'image': image
 	};
 	socket.emit('approve', approvedTweet);
-	appendApproved(approvedTweet,  $("#approved-tweets"));
+	appendApproved(approvedTweet,  $("#approved-tweets-content"));
 	});
 </script>
 

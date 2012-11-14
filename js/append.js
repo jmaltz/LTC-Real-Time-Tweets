@@ -5,9 +5,10 @@ function appendTweets(tweetsToAppend){
 	tweetsToAppend = JSON.parse(newTweets);
     }catch(error){
 	console.log("JSON Error");
+	return;
     }
-    for(var i = 0; i < 2 && i < tweetsToAppend.length; i++){
-	$('#tweets').prepend($('<div class="tweet">' +
+    for(var i = 0; i < tweetsToAppend.length; i++){
+	$('#tweets-content').prepend($('<div class="tweet">' +
 			    '<button class="btn btn-success approve-btn">Approve</button>' +
 			    '<div class="left-image pull-left"> ' +
 			    '<img src="' + tweetsToAppend[i].image + '"/>' +
