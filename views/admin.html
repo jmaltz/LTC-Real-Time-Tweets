@@ -32,7 +32,6 @@ console.log('received a whole buncha tweets');
 	if(hashtagToSearch !== currentHashtag && hashtagToSearch !== ""){
 	currentHashtag = hashtagToSearch;
 	socket.emit('subscribe', {'hashtag':currentHashtag});
-	console.log("Faps light??");
 	}
 	});
 </script>
