@@ -50,7 +50,7 @@ function subscribeToHashtag(hashtag, socket){
     
     var subscriberList = hashtagSubscribers[hashtag];
     subscriberList.subscribers.push(socket);
-    socket.emit('seed-messages', {'seed-messages': subscriberList.messages}); 
+    socket.emit('seed-messages', {'new-tweets': subscriberList.messages}); 
 }
 
 /*Removes the socket so that it is only sitting on one hashtag*/
@@ -75,8 +75,6 @@ function onRequestComplete(body, hashtag){
     var hashtagMessager = hashtagSubscribers[hashtag];
     var storedMessages = hashtagMessager.messages;
     
-    console.log("length of stored messages is " + storedMessages.length);
-    
     var i = 0;
     var resultsToAdd = new Array();
     for(; i<tweets.length; i++){
@@ -87,15 +85,20 @@ function onRequestComplete(body, hashtag){
 	var tweetToAdd = {
 	    'id':tweets[i].id,
 	    'text':tweets[i].text,
-	    'image':tweets[i].profile_image_url
+	    'image':tweets[i].profile_image_url,
+	    'from':tweets[i].from_user
 	};
 	resultsToAdd.push(tweetToAdd);
     }
 
     var newMessages = spliceArrayToLength(storedMessages, resultsToAdd);
     hashtagMessager.messages = newMessages;
+    var stringifiedResults = JSON.stringify(resultsToAdd);
+    var cleanStringified = filterUnicode(stringifiedResults);
+
     for(var i = 0; i < hashtagMessager.subscribers.length; i++){
-	hashtagMessager.subscribers[i].emit('new-tweets', {'new-tweets': resultsToAdd});
+	hashtagMessager.subscribers[i].emit('new-tweets', {'new-tweets': cleanStringified});
+	
     }
 }
 
@@ -118,6 +121,19 @@ function spliceArrayToLength(arrayToSplice, arrayToAdd){
 
 function getTweetsForHashtag(hashtag){
     return hashtagSubscribers[hashtag].messages;
+}
+
+
+
+function filterUnicode(quoted){
+    var escapable = /[\x00-\x1f\ud800-\udfff\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufff0-\uffff]/g;
+
+    escapable.lastIndex = 0;
+    if( !escapable.test(quoted)) return quoted;
+
+    return quoted.replace( escapable, function(a){
+	return '';
+    });
 }
 
 exports.spliceArrayToLength = spliceArrayToLength;

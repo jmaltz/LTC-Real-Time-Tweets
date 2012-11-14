@@ -6,5 +6,6 @@ var requestHandlers = {};
 requestHandlers["/"] = handlers.index;
 requestHandlers["/index"] = handlers.index;
 requestHandlers["/admin"] = handlers.admin;
+requestHandlers["/js"] = handlers.javascript;
 
 server.startServer(router, requestHandlers);
