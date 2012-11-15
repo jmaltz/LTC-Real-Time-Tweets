@@ -1,6 +1,6 @@
 var twitterRequest = require("./twitterRequest");
 
-//result = twitterRequest.addHashtag("photography");
+result = twitterRequest.addHashtag("photography");
 
 var tweetOne = {
     'id':1,
@@ -26,10 +26,10 @@ var tweetFour = {
     'image': "herp"
 };
 
-var firstSet = [tweetOne, tweetTwo];
+/*var firstSet = [tweetOne, tweetTwo];
 var secondSet = [tweetTwo, tweetThree];
 
 var arrayToLength = twitterRequest.spliceArrayToLength(new Array(), firstSet);
 console.log(arrayToLength);
 arrayToLength = twitterRequest.spliceArrayToLength(arrayToLength, secondSet);
-console.log(arrayToLength);
+console.log(arrayToLength);*/

@@ -1,5 +1,5 @@
 var config = {};
 
-config.tweetsToCache =3;
+config.tweetsToCache = 100;
 
 exports.config = config;

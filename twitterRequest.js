@@ -96,7 +96,7 @@ function onRequestComplete(body, hashtag){
 }
 
 function spliceArrayToLength(arrayToSplice, arrayToAdd){
-    
+    console.log("arrayToAdd's length is " + arrayToAdd.length);
     if (arrayToSplice.length == config.tweetsToCache){
 				arrayToSplice.splice(config.tweetsToCache  - arrayToAdd.length, arrayToAdd.length);
     }
