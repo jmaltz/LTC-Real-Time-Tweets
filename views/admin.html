@@ -4,7 +4,7 @@
 <body>
 This my admin page!!
 <div id="search-bar">
-<input type="text" id="hashtag-to-search" /><button id="hashtag-submit">
+<input type="text" id="hashtag-to-search" /><button id="hashtag-submit">Submit</button>
 </div>
 
 <div id="tweets">
@@ -31,7 +31,8 @@ console.log('received a whole buncha tweets');
 	var hashtagToSearch = $("#hashtag-to-search").val();
 	if(hashtagToSearch !== currentHashtag && hashtagToSearch !== ""){
 	currentHashtag = hashtagToSearch;
-	socket.emit({'subscribe': {'hashtag':currentHashtag}});
+	socket.emit('subscribe', {'hashtag':currentHashtag});
+	console.log("Faps light??");
 	}
 	});
 </script>

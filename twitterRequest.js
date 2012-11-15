@@ -94,7 +94,7 @@ function onRequestComplete(body, hashtag){
     var newMessages = spliceArrayToLength(storedMessages, resultsToAdd);
     hashtagMessager.messages = newMessages;
 		for(var i = 0; i < hashtagMessager.subscribers; i++){
-				hashtagMessager.subscribers[i].emit({'new-tweets', resultsToAdd});
+				hashtagMessager.subscribers[i].emit({'new-tweets': resultsToAdd});
 		}
 }
 

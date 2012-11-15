@@ -9,9 +9,9 @@ function listenOnServer(serverToListen){
 
 function onConnectionReceived(socket){
     socket.on('subscribe', function(message){
-				var messageReceived = JSON.parse(message);
+				console.log("do we get into here?");
 				
-				twitterRequest.subscribeToHashtag(messageReceived.hashtag, socket);	
+				twitterRequest.subscribe(message.hashtag, socket);	
     });
 
 		socket.on('approve', function(message){
