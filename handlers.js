@@ -1,7 +1,7 @@
 var fs = require("fs");
 
 function index(response){
-		fs.readFile(__dirname + '/index.html', function(error, data){
+		fs.readFile(__dirname + '/views/index.html', function(error, data){
 				if(error){
 						response.writeHead(500, {'Content-Type': 'text/HTML'});
 						response.write('Error, an error occurred while loading the requested page, please try again');
@@ -16,7 +16,7 @@ function index(response){
 }
 
 function admin(response){
-		fs.readFile(__dirname  + '/admin.html', function(error, data){
+		fs.readFile(__dirname  + '/views/admin.html', function(error, data){
 				if(error){
 						response.writeHead(500, {'Content-Type': 'text/HTML'});
 						response.write('Error: an error occurred while loading the requested page, please try again');

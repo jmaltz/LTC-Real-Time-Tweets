@@ -10,8 +10,14 @@ function listenOnServer(serverToListen){
 function onConnectionReceived(socket){
     socket.on('subscribe', function(message){
 				var messageReceived = JSON.parse(message);
+				
 				twitterRequest.subscribeToHashtag(messageReceived.hashtag, socket);	
     });
+
+		socket.on('approve', function(message){
+				socket.broadcast.emit('approved', message);
+		});
 }
+
 
 exports.listen = listenOnServer;

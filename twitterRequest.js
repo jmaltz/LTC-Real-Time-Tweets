@@ -42,15 +42,15 @@ function subscribeToHashtag(hashtag, socket){
     removeSocket(socket);
    
     if(added){
-	hashtagMessaging = {};
-	hashtagMessaging.subscribers = new Array();
-	hashtagMessaging.messages = new Array();
-	hashtagSubscribers[hashtag] = hashtagMessaging
+				hashtagMessaging = {};
+				hashtagMessaging.subscribers = new Array();
+				hashtagMessaging.messages = new Array();
+				hashtagSubscribers[hashtag] = hashtagMessaging
     }
     
     var subscriberList = hashtagSubscribers[hashtag];
     subscriberList.subscribers.push(socket);
-    socket.emit({'message': subscriberList.messages}); 
+    socket.emit({'seed-messages': subscriberList.messages}); 
 }
 
 /*Removes the socket so that it is only sitting on one hashtag*/
@@ -93,6 +93,9 @@ function onRequestComplete(body, hashtag){
 
     var newMessages = spliceArrayToLength(storedMessages, resultsToAdd);
     hashtagMessager.messages = newMessages;
+		for(var i = 0; i < hashtagMessager.subscribers; i++){
+				hashtagMessager.subscribers[i].emit({'new-tweets', resultsToAdd});
+		}
 }
 
 function spliceArrayToLength(arrayToSplice, arrayToAdd){

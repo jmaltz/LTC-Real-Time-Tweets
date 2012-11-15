@@ -1,0 +1,39 @@
+<html>
+<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<body>
+This my admin page!!
+<div id="search-bar">
+<input type="text" id="hashtag-to-search" /><button id="hashtag-submit">
+</div>
+
+<div id="tweets">
+
+</div>
+</body>
+
+
+<script type="text/javascript">
+var socket = io.connect();
+
+socket.on('seed-messages', function(message){
+console.log('received a set of seed messages');
+});
+
+socket.on('new-tweets', function(message){
+console.log('received a whole buncha tweets');
+});
+</script>
+
+<script type="text/javascript">
+	var currentHashtag = "";
+	$("#hashtag-submit").click(function(){
+	var hashtagToSearch = $("#hashtag-to-search").val();
+	if(hashtagToSearch !== currentHashtag && hashtagToSearch !== ""){
+	currentHashtag = hashtagToSearch;
+	socket.emit({'subscribe': {'hashtag':currentHashtag}});
+	}
+	});
+</script>
+
+</html>
