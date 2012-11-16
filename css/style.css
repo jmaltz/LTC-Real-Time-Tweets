@@ -30,9 +30,6 @@
 #tweets .tweet .user {
     color: blue;
 }
-#tweets .tweet .user:before { 
-    content:"@";
-}
 
 #tweets-admin .tweet {
     float: left;
