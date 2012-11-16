@@ -1,0 +1,17 @@
+{
+        'name': 'LTC-Realtime-tweets',
+        'version': '0.0.1',
+        'description': 'A tool to help LTC manage their real time tweets',
+        'bin': {
+               'startup' : './bin/startup.js'
+              },
+        'scripts': {
+                   'start': 'node ./bin/startup.js'
+                   },
+        'dependencies': {
+                'socket.io': '~0.9',
+                'cron': '~1.0.1',
+                'request': '2.12.0'
+                },
+}
+         
