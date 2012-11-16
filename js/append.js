@@ -66,15 +66,11 @@ function displayTweets(tweetsToAppend){
     var i = Math.floor( (Math.random() * tweetsToAppend.length) + 1 );
 
     var html = '<div class="tweet">' +
-                 '<div class="left-image pull-left">' +
-                   '<img src="' + tweetsToAppend[i].image + '">' +
-                 '</div>' +
-                 '<div class="individual-tweet pull-left">' +
-                   '<div class="user">' + tweetsToAppend[i].from + '</div>' +
-                   '<div class="tweet-content">' + tweetsToAppend[i].text + '</div>' +
-                 '</div>' +
-                 '<div class="approve-tweet pull-right">' +
-                   '<button class="btn btn-success approve-btn">Approve</button>' +
+                 '<div class="approved-tweet">' +
+                   '<div class="approved-information">' +
+                     '<div class="user">@' + tweetsToAppend[i].from + '</div>' +
+                     '<div class="individual-tweet">' + tweetsToAppend[i].text + '</div>' +
+                   '</div>' +
                  '</div>' +
                '</div>';
 
