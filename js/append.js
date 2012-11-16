@@ -24,7 +24,7 @@ function appendTweets(tweetsToAppend){
                   '</div>' +
                   '<div class="approve-tweet pull-right">' +
                     '<button class="btn btn-success approve-btn">Approve</button>' +
-                  '</div>'
+                  '</div>' +
                 '</div>';
     }
     
@@ -43,7 +43,7 @@ function appendApproved(tweetToAppend, appendTo) {
              '<div class="approved-information">' +
                '<div class="user">' + tweetToAppend.username + '</div>' +
                '<div class="individual-tweet">' + tweetToAppend.tweet + '</div>'+
-             '</div>'
+             '</div>' +
            '</div>';
 
     appendTo.prepend(html);
@@ -75,7 +75,7 @@ function displayTweets(tweetsToAppend){
                  '</div>' +
                  '<div class="approve-tweet pull-right">' +
                    '<button class="btn btn-success approve-btn">Approve</button>' +
-                 '</div>'
+                 '</div>' +
                '</div>';
 
     $('#tweets-content').html(html);
