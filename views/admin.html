@@ -76,12 +76,6 @@
     jQuery(document).ready(function($){
         var currentHashtag = "";
 
-        var individualTweetWidth = $('.span6').width() - 165;
-
-        if(individualTweetWidth > 0) {
-            $('.individual-tweet').width(individualTweetWidth);            
-        }
-
         $('#twitter-search').submit(function(e) {
             var hashtagToSearch = $("#hashtag-to-search").val();
             

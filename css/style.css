@@ -48,7 +48,7 @@
     margin-right: 15px;
 }
 #tweets-admin .tweet .individual-tweet {
-    margin-right: 15px;
+    width: 70%;
 }
 #tweets-admin .tweet .approve-tweet {
     margin-top: 10px;
