@@ -101,6 +101,7 @@ function getTweetsForHashtag(hashtag){
     return hashtagSubscribers[hashtag].messages;
 }
 
+
 /*Sends a request to twitter and gets the latest tweets for a given hashtag*/
 function updateHashtag(hashtag){
     request("http://search.twitter.com/search.json?q=" + encodeURIComponent('#' + hashtag) + "&" + "rpp="+config.tweetsToCache, function(error, response, body){
@@ -125,6 +126,18 @@ function addApprovedTweet(hashtag, tweetInformation){
     return true;
 }
 
+function getApprovedTweets(){
+		var approvedTweets = new Array();
+		for(var key in approvedCache){
+				for(var i = 0; i<approvedCache[key].length; i++){
+						approvedTweets.push(approvedCache[key][i]);
+				}
+		}
+
+		return approvedTweets;
+}
+
+exports.getApprovedTweets = getApprovedTweets;
 exports.addApprovedTweet = addApprovedTweet;
 exports.removeSocket = removeSocket;
 exports.requestComplete = onRequestComplete;

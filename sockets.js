@@ -14,6 +14,13 @@ function onConnectionReceived(socket){
 				twitterRequest.subscribe(message.hashtag, socket);	
     });
 
+		socket.on('get-cache', function(message){
+				var allApproved = twitterRequest.getApprovedTweets();
+				for(var i = 0; i<allApproved.length; i++){
+						socket.emit('approved', allApproved[i]);
+				}
+		});
+
 		socket.on('disconnect', function(){
 				twitterRequest.removeSocket(this);
 		});

@@ -17,6 +17,12 @@
 <script type="text/javascript">
 var socket = io.connect();
 
+socket.emit('get-cache');
+
+socket.on('cached-tweets', function(message){
+
+});
+
 socket.on('approved', function(message){
 appendApproved(message, $("#tweets"));
 });
