@@ -49,3 +49,9 @@
 #tweets-admin .tweet .approve-tweet {
     margin-top: 10px;
 }
+.footer {
+    background-color: whiteSmoke;
+    border-top: 1px solid #E5E5E5;
+    margin-top: 70px;
+    padding: 70px 0;
+}
