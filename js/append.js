@@ -28,7 +28,7 @@ function appendTweets(tweetsToAppend){
                 '</div>';
     }
     
-    $('#tweets-content').html(html);
+    $('#tweets-content').prepend(html);
 }
 
 function appendApproved(tweetToAppend, appendTo) {
