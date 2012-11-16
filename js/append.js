@@ -54,11 +54,11 @@ function displayTweets(tweetToAppend) {
     var html = '<div class="tweet">' +
                  '<div class="approved-tweet">' +
                    '<div class="approved-information">' +
-                     '<div class="user">@' + tweetToAppend.from + '</div>' +
-                     '<div class="individual-tweet">' + tweetToAppend.text + '</div>' +
+                     '<div class="user">@' + tweetToAppend.username + '</div>' +
+                     '<div class="individual-tweet">' + tweetToAppend.tweet + '</div>' +
                    '</div>' +
                  '</div>' +
                '</div>';
 
-    $('#tweets-content').html(html);
+    $('#tweets').html(html);
 }
