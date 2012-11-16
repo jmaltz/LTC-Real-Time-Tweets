@@ -9,7 +9,9 @@ function startup(router, handlers){
 		    router.route(parsedUrl.pathname, handlers, response);
 		});
 		sockets.listen(server);
-		server.listen(8080);
+		
+		var port = process.env.PORT || 8080;
+		server.listen(port);
 }
 
 exports.startServer = startup;
