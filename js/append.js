@@ -49,27 +49,13 @@ function appendApproved(tweetToAppend, appendTo) {
     appendTo.prepend(html);
 }
 
-function displayTweets(tweetsToAppend){
-    var newTweets = tweetsToAppend["new-tweets"];
-
-    try {
-    
-       tweetsToAppend = JSON.parse(newTweets);
-    
-    } catch(error) {
-    
-        console.log("JSON Error");
-        return;
-    
-    }
-
-    var i = Math.floor( (Math.random() * tweetsToAppend.length) + 1 );
+function displayTweets(tweetToAppend) {
 
     var html = '<div class="tweet">' +
                  '<div class="approved-tweet">' +
                    '<div class="approved-information">' +
-                     '<div class="user">@' + tweetsToAppend[i].from + '</div>' +
-                     '<div class="individual-tweet">' + tweetsToAppend[i].text + '</div>' +
+                     '<div class="user">@' + tweetToAppend.from + '</div>' +
+                     '<div class="individual-tweet">' + tweetToAppend.text + '</div>' +
                    '</div>' +
                  '</div>' +
                '</div>';
