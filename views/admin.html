@@ -30,7 +30,7 @@
     <div class="span12">
       <div class="navbar">
         <div class="navbar-inner">
-          <form name="twitter_search" id="twitter-search" class="navbar-search pull-left">
+          <form name="twitter_search" id="twitter-search" onsubmit="return false;" class="navbar-search pull-left">
             <input type="text" name="hashtag_search" id="hashtag-to-search" class="search-query" placeholder="Search Twitter">
           </form>
         </div>
@@ -50,6 +50,29 @@
 </div>
 
 <script type="text/javascript">
+    var socket = io.connect();
+    
+    socket.on('seed-messages', function(message) {
+        appendTweets(message);
+    });
+    
+    socket.on('seed-approvals', function(message) {
+        var approvals = message.approvals;
+        var appendLoc =  $("#approved-tweets-content");
+        
+        for(var i = 0; i< approvals.length; i++) {
+            appendApproved(approvals[i], appendLoc);
+        }
+    });
+    
+    socket.on('new-tweets', function(message){
+        appendTweets(message);
+    });
+    
+    socket.on('approved', function(message){
+        appendApproved(message, $("#approved-tweets-content"));
+    });
+
     jQuery(document).ready(function($){
         var currentHashtag = "";
         
@@ -89,31 +112,6 @@
                 appendApproved(approvedTweet,  $("#approved-tweets-content"));
         });        
     });
-    
-    (function() {
-        var socket = io.connect();
-        
-        socket.on('seed-messages', function(message) {
-            appendTweets(message);
-        });
-        
-        socket.on('seed-approvals', function(message) {
-            var approvals = message.approvals;
-            var appendLoc =  $("#approved-tweets-content");
-            
-            for(var i = 0; i< approvals.length; i++) {
-                appendApproved(approvals[i], appendLoc);
-            }
-        });
-        
-        socket.on('new-tweets', function(message){
-            appendTweets(message);
-        });
-        
-        socket.on('approved', function(message){
-            appendApproved(message, $("#approved-tweets-content"));
-        });
-    })();
 </script>
 </body>
 </html>
