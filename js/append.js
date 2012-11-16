@@ -1,3 +1,36 @@
+function appendTweets(tweetsToAppend){
+    var newTweets = tweetsToAppend["new-tweets"], html;
+
+    try {
+    
+       tweetsToAppend = JSON.parse(newTweets);
+    
+    } catch(error) {
+    
+        console.log("JSON Error");
+        return;
+    
+    }
+    
+    for(var i = 0; i < tweetsToAppend.length; i++) {
+
+        html += '<div class="tweet">' +
+                     '<div class="left-image pull-left">' +
+                        '<img src="' + tweetsToAppend[i].image + '">' +
+                     '</div>' +
+                     '<div class="individual-tweet pull-left">' +
+                       '<div class="user">' + tweetsToAppend[i].from + '</div>' +
+                       '<div class="tweet-content">' + tweetsToAppend[i].text + '</div>' +
+                     '</div>' +
+                     '<div class="approve-tweet pull-right">' +
+                       '<button class="btn btn-success approve-btn">Approve</button>' +
+                     '</div>'
+                   '</div>';
+    }
+    
+    $('#tweets-content').html(html);
+}
+
 function appendApproved(tweetToAppend, appendTo) {
     var html;
     
@@ -14,18 +47,17 @@ function appendApproved(tweetToAppend, appendTo) {
     appendTo.prepend(html);
 }
 
-
-function appendTweets(tweetsToAppend){
+function displayTweets(tweetsToAppend){
     var newTweets = tweetsToAppend["new-tweets"];
 
     try {
-	
-	   tweetsToAppend = JSON.parse(newTweets);
+    
+       tweetsToAppend = JSON.parse(newTweets);
     
     } catch(error) {
     
-    	console.log("JSON Error");
-    	return;
+        console.log("JSON Error");
+        return;
     
     }
 
@@ -46,4 +78,3 @@ function appendTweets(tweetsToAppend){
 
     $('#tweets-content').html(html);
 }
-
