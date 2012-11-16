@@ -12,11 +12,15 @@ function onConnectionReceived(socket){
 				twitterRequest.subscribe(message.hashtag, socket);	
     });
 
+		socket.on('disconnect', function(){
+				twitterRequest.removeSocket(this);
+		});
+
     socket.on('approve', function(message){
-	var approvedHashtag = message.hashtag;
-	var approvedTweet = message.tweet;
-	socket.broadcast.emit('approved', approvedTweet);
-	twitterRequest.addApprovedTweet(approvedHashtag, approvedTweet);
+				var approvedHashtag = message.hashtag;
+				var approvedTweet = message.tweet;
+				socket.broadcast.emit('approved', approvedTweet);
+				twitterRequest.addApprovedTweet(approvedHashtag, approvedTweet);
     });
 }
 
