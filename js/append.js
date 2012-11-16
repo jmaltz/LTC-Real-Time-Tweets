@@ -28,7 +28,7 @@ function appendTweets(tweetsToAppend){
                 '</div>';
     }
     
-    $('#tweets-content').prepend(html);
+    $('#tweets-content').prepend($(html));
 }
 
 function appendApproved(tweetToAppend, appendTo) {
@@ -39,6 +39,7 @@ function appendApproved(tweetToAppend, appendTo) {
                '<div class="left-image pull-left">' +
                  '<img src="' + tweetToAppend.image +'">' +
                '</div>' +
+             '</div>' +
              '<div class="approved-information">' +
                '<div class="user">' + tweetToAppend.username + '</div>' +
                '<div class="individual-tweet">' + tweetToAppend.tweet + '</div>'+
