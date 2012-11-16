@@ -106,6 +106,8 @@ function updateHashtag(hashtag){
     request("http://search.twitter.com/search.json?q=" + encodeURIComponent('#' + hashtag) + "&" + "rpp="+config.tweetsToCache, function(error, response, body){
 		    if(error || response.statusCode != 200){
 						console.log("error while searching for " + hashtag);
+						console.log(error + " is the error");
+						console.log(body + " is the body");
 		    }
 		    else{
 						onRequestComplete(body, hashtag);

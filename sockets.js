@@ -3,7 +3,9 @@ twitterRequest = require("./twitterRequest");
 var server = null;
 
 function listenOnServer(serverToListen){
-    server = io.listen(serverToListen);
+
+    server = io.listen(serverToListen, {'transports': ['xhr-polling'],
+																			 'Polling Duration': 10});
     server.sockets.on('connection', onConnectionReceived);
 }
 
