@@ -1,33 +1,57 @@
-.tweet{
-    clear: both;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    float: left;
+#tweets {
+    height: 1px;
+    left: 0px;
+    overflow: visible;
+    position: absolute;
+    top: 50%;
     width: 100%;
 }
-
-.individual-tweet{
-    margin-left: 15px;
+#tweets .tweet {
+    height: 400px;
+    left: 50%;
+    margin-left: -35%;
+    position: absolute;
+    top: -200px;
+    visibility: visible;
+    width: 70%;
+}
+#tweets .tweet .approved-tweet {
+    height: 100%;
+}
+#tweets .tweet img {
+    display: none;
+}
+#tweets .tweet .approved-information {
+    display: block;
+    font-size: 7em;
+    line-height: 1.2em;
+}
+#tweets .tweet .user {
+    color: blue;
 }
 
-.approve-btn{
-    float: right;
-    margin-top: 10px;
-    vertical-align: center;
-}
-
-#approved-tweets{
-   padding-left: 20px;
-   float: left;
-   width: 45%;
-}
-
-#tweets{
-    width: 45%;
+#tweets-admin .tweet {
     float: left;
+    margin-bottom: 15px;
+    padding: 5px;
+    position: relative;
+    width: 100%;
 }
-
-#hashtag-to-search{
-		margin-top: 6px;
-		height: 25px;
+#tweets-admin .tweet:nth-child(odd) {
+    background-color: #F9F9F9;
+}
+#tweets-admin .tweet .left-image {
+    margin-right: 15px;
+}
+#tweets-admin .tweet .individual-tweet {
+    width: 70%;
+}
+#tweets-admin .tweet .approve-tweet {
+    margin-top: 10px;
+}
+.footer {
+    background-color: whiteSmoke;
+    border-top: 1px solid #E5E5E5;
+    margin-top: 70px;
+    padding: 70px 0;
 }
