@@ -15,17 +15,17 @@ function appendTweets(tweetsToAppend){
     for(var i = 0; i < tweetsToAppend.length; i++) {
 
         html += '<div class="tweet">' +
-                     '<div class="left-image pull-left">' +
-                        '<img src="' + tweetsToAppend[i].image + '">' +
-                     '</div>' +
-                     '<div class="individual-tweet pull-left">' +
-                       '<div class="user">' + tweetsToAppend[i].from + '</div>' +
-                       '<div class="tweet-content">' + tweetsToAppend[i].text + '</div>' +
-                     '</div>' +
-                     '<div class="approve-tweet pull-right">' +
-                       '<button class="btn btn-success approve-btn">Approve</button>' +
-                     '</div>'
-                   '</div>';
+                  '<div class="left-image pull-left">' +
+                    '<img src="' + tweetsToAppend[i].image + '">' +
+                  '</div>' +
+                  '<div class="individual-tweet pull-left">' +
+                    '<div class="user">' + tweetsToAppend[i].from + '</div>' +
+                    '<div class="tweet-content">' + tweetsToAppend[i].text + '</div>' +
+                  '</div>' +
+                  '<div class="approve-tweet pull-right">' +
+                    '<button class="btn btn-success approve-btn">Approve</button>' +
+                  '</div>'
+                '</div>';
     }
     
     $('#tweets-content').html(html);
@@ -42,7 +42,8 @@ function appendApproved(tweetToAppend, appendTo) {
              '<div class="approved-information">' +
                '<div class="user">' + tweetToAppend.username + '</div>' +
                '<div class="individual-tweet">' + tweetToAppend.tweet + '</div>'+
-             '</div>';
+             '</div>'
+           '</div>';
 
     appendTo.prepend(html);
 }
@@ -65,7 +66,7 @@ function displayTweets(tweetsToAppend){
 
     var html = '<div class="tweet">' +
                  '<div class="left-image pull-left">' +
-                    '<img src="' + tweetsToAppend[i].image + '">' +
+                   '<img src="' + tweetsToAppend[i].image + '">' +
                  '</div>' +
                  '<div class="individual-tweet pull-left">' +
                    '<div class="user">' + tweetsToAppend[i].from + '</div>' +
