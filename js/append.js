@@ -60,5 +60,7 @@ function displayTweets(tweetToAppend) {
                  '</div>' +
                '</div>';
 
-    $('#tweets').html(html);
+    $('#tweets .tweet').fadeOut();
+
+    $('#tweets').html(html).fadeIn();
 }
