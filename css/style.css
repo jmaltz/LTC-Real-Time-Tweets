@@ -34,3 +34,22 @@
     content:"@";
 }
 
+#tweets-admin .tweet {
+    float: left;
+    margin-bottom: 15px;
+    padding: 5px;
+    position: relative;
+    width: 100%;
+}
+#tweets-admin .tweet:nth-child(odd) {
+    background-color: #F9F9F9;
+}
+#tweets-admin .tweet .left-image {
+    margin-right: 15px;
+}
+#tweets-admin .tweet .individual-tweet {
+    margin-right: 15px;
+}
+#tweets-admin .tweet .approve-tweet {
+    margin-top: 10px;
+}
