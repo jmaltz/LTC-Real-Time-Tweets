@@ -26,3 +26,8 @@
     width: 45%;
     float: left;
 }
+
+#hashtag-to-search{
+		margin-top: 6px;
+		height: 25px;
+}
