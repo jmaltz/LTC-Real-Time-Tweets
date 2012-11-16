@@ -59,9 +59,9 @@ function removeSocket(socket){
 						}
 				}
 				if(subscribers.length == 0){
-						hashtagSubscribers[key] = undefined;
+						delete hashtagSubscribers[key];
 						searchingHashtags[key].stop();
-						searchingHashtags[key] = undefined;
+						delete searchingHashtags[key];
 				}
     }
 
