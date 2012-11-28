@@ -56,18 +56,18 @@ var adminHandler = (function(){
 				el: $('#tweets-content'),
 
 				initialize: function(){
-						adminTweets.bind('add', this.addTweet);
+						adminTweets.bind('add', this.addTweet, this);
 						//adminTweets.bind('reset', resetView, this);
 				},
 
 				addTweet: function(tweet){
-						console.log('does this get called???');
 						var newView = new AdminTweet({model: tweet});
- 						$(newView.render().el).hide().prepend(this.$el).fadeIn('slow');
+ 						$(newView.render().$el.html()).hide().prependTo(this.$el).fadeIn('slow');
+						//this.$el.append(newView.render().el);
 				}
 		});
 
-		var adminView = new AdminList;
+		var adminView = new AdminList({el: $('#tweets-content')});
 
 		return {		
 				addTweet: function(tweet){
