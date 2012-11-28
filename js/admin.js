@@ -17,11 +17,13 @@ var adminHandler = (function(){
 														 '</div>'),
 
 				events:{
-						'click button.approve-btn': "approveTweet"
+						'click .approve-btn': 'approveTweet'
 				},
 
 				approveTweet: function(){
+						console.log('am I into this???');
 						adminTweets.remove(this.model);
+						socket.emit('approve', this.model);
 						approvedTweets.add(this.model);
 						this.remove();
 				},
@@ -53,9 +55,9 @@ var adminHandler = (function(){
 
 		
 		var AdminList = Backbone.View.extend({
-				el: $('#tweets-content'),
 
 				initialize: function(){
+
 						adminTweets.bind('add', this.addTweet, this);
 						//adminTweets.bind('reset', resetView, this);
 				},
@@ -63,11 +65,23 @@ var adminHandler = (function(){
 				addTweet: function(tweet){
 						var newView = new AdminTweet({model: tweet});
  						$(newView.render().$el.html()).hide().prependTo(this.$el).fadeIn('slow');
-						//this.$el.append(newView.render().el);
+				}
+		});
+
+		var ApprovedList = Backbone.View.extend({
+				
+				initialize: function(){
+						approvedTweets.bind('add', this.addTweet, this);
+				},
+
+				addTweet: function(tweet){
+						var newView = new ApprovedTweet({model: tweet});
+						$(newView.render().$el.html()).hide().prependTo(this.$el).fadeIn('slow');
 				}
 		});
 
 		var adminView = new AdminList({el: $('#tweets-content')});
+		//var approvedView = new ApprovedList({el: $('#approved-tweets-content')});
 
 		return {		
 				addTweet: function(tweet){
