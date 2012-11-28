@@ -1,6 +1,8 @@
 var adminHandler = (function(){
 		var adminTweets = new TweetsCollection;
 		var approvedTweets = new TweetsCollection;
+		var currentHashtag = "";
+
 
 		var AdminTweet = Backbone.View.extend({
 				template: _.template('<div class="tweet">' +
@@ -23,7 +25,12 @@ var adminHandler = (function(){
 				approveTweet: function(){
 						console.log('am I into this???');
 						adminTweets.remove(this.model);
-						socket.emit('approve', this.model);
+						
+						var approvedObj = {};
+						approvedObj.hashtag = currentHashtag;
+						approvedObj.tweet = this.model;
+						
+						socket.emit('approve', approvedObj);
 						approvedTweets.add(this.model);
 						this.remove();
 				},
@@ -86,7 +93,43 @@ var adminHandler = (function(){
 		return {		
 				addTweet: function(tweet){
 						adminTweets.add(tweet);
+				},
+
+				addTweetList: function(tweets){
+						var tweets = tweets['new-tweets'];
+						try {
+								tweets = JSON.parse(tweets);
+						} catch(error) {
+
+								console.log("JSON Error");
+								tweets = [];
+								
+						}
+						
+						for(var i = 0; i < tweets.length; i++) {
+								this.addTweet(tweets[i]);
+						}
+				},
+
+				addApproved: function(tweet){
+						console.log(tweet);
+						approvedTweets.add(tweet);
+				},
+
+				addApprovedList: function(tweets){
+						for(var i = 0; i<tweets.length; i++){
+								this.addApproved(tweets[i]);
+						}
+				},
+
+				setHashtag: function(hashtag){
+						this.currentHashtag = hashtag;
+				},
+				
+				getHashtag: function(){
+						return this.currentHashtag;
 				}
+				
 		};
 })();
 
