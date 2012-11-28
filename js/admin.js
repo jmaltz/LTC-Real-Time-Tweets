@@ -16,7 +16,7 @@ var adminHandler = (function(){
 														 '</div>' +
 														 '</div>'),
 
-				events:{
+				events: {
 						'click .approve-btn': 'approveTweet'
 				},
 
@@ -64,7 +64,7 @@ var adminHandler = (function(){
 
 				addTweet: function(tweet){
 						var newView = new AdminTweet({model: tweet});
- 						$(newView.render().$el.html()).hide().prependTo(this.$el).fadeIn('slow');
+ 						$(newView.render().$el).prependTo(this.$el).fadeIn('slow');
 				}
 		});
 
@@ -76,12 +76,12 @@ var adminHandler = (function(){
 
 				addTweet: function(tweet){
 						var newView = new ApprovedTweet({model: tweet});
-						$(newView.render().$el.html()).hide().prependTo(this.$el).fadeIn('slow');
+						$(newView.render().$el).prependTo(this.$el).fadeIn('slow');
 				}
 		});
 
 		var adminView = new AdminList({el: $('#tweets-content')});
-		//var approvedView = new ApprovedList({el: $('#approved-tweets-content')});
+		var approvedView = new ApprovedList({el: $('#approved-tweets-content')});
 
 		return {		
 				addTweet: function(tweet){

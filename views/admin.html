@@ -73,7 +73,6 @@
 
 <script type="text/javascript" src="/js/admin.js"></script>
 <script type="text/javascript">
-//adminHandler.addTweet()
 
   var socket = io.connect();
     
@@ -92,11 +91,8 @@
     
     socket.on('new-tweets', function(message){
 				var tweets = message['new-tweets'];
-				console.log(tweets);
 		try {
-    
        tweets = JSON.parse(tweets);
-    
     } catch(error) {
 
         console.log("JSON Error");
@@ -105,7 +101,7 @@
     }
     
     for(var i = 0; i < tweets.length; i++) {
-				console.log('tweet!!!');
+
 				adminHandler.addTweet(tweets[i]);
     }
 
@@ -133,7 +129,7 @@
             return false;
         });
 
-        $('#tweets-content').on('click', '.approve-btn', function() {
+        /*$('#tweets-content').on('click', '.approve-btn', function() {
                 var parent = $(this).parents('.tweet');
 
                 var approvedTweet = {
@@ -152,7 +148,7 @@
                 parent.fadeOut('fast');
                 
                 appendApproved(approvedTweet,  $("#approved-tweets-content"));
-        });        
+        });*/        
     });
 </script>
 </body>
