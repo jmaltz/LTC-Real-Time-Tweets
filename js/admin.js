@@ -23,11 +23,13 @@ var adminHandler = (function(){
 				},
 
 				approveTweet: function(){
-						console.log('am I into this???');
 						adminTweets.remove(this.model);
 						
 						var approvedObj = {};
-						approvedObj.hashtag = currentHashtag;
+						approvedObj.hashtag = adminHandler.currentHashtag;
+
+						console.log('hashtag is ' + adminHandler.currentHashtag);
+
 						approvedObj.tweet = this.model;
 						
 						socket.emit('approve', approvedObj);
@@ -112,7 +114,6 @@ var adminHandler = (function(){
 				},
 
 				addApproved: function(tweet){
-						console.log(tweet);
 						approvedTweets.add(tweet);
 				},
 

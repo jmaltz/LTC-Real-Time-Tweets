@@ -77,78 +77,43 @@
   var socket = io.connect();
     
     socket.on('seed-messages', function(message) {
-        //appendTweets(message);
+	     adminHandler.addTweetList(message);
     });
     
     socket.on('seed-approvals', function(message) {
+	
         var approvals = message.approvals;
-        var appendLoc =  $("#approved-tweets-content");
-        
+        console.log('Approvals are ' + approvals);      
         for(var i = 0; i< approvals.length; i++) {
-            appendApproved(approvals[i], appendLoc);
+            adminHandler.addApproved(approvals);
         }
     });
     
     socket.on('new-tweets', function(message){
-				var tweets = message['new-tweets'];
-		try {
-       tweets = JSON.parse(tweets);
-    } catch(error) {
-
-        console.log("JSON Error");
-				tweets = [];
-        
-    }
-    
-    for(var i = 0; i < tweets.length; i++) {
-
-				adminHandler.addTweet(tweets[i]);
-    }
-
+				adminHandler.addTweetList(message);
     });
     
     socket.on('approved', function(message){
-        appendApproved(message, $("#approved-tweets-content"));
+				console.log(message);
+        adminHandler.addApproved(message);
     });
 
     jQuery(document).ready(function($){
-        var currentHashtag = "";
+
 
         $('#twitter-search').submit(function(e) {
             var hashtagToSearch = $("#hashtag-to-search").val();
             
-            if((hashtagToSearch !== currentHashtag) && (hashtagToSearch !== "")) {
+            if((hashtagToSearch !== adminHandler.getHashtag()) && (hashtagToSearch !== "")) {
                 currentHashtag = hashtagToSearch;
-                
+								adminHandler.setHashtag(hashtagToSearch);
                 $("#approved-tweets-content").empty();
                 $("#tweets-content").empty();
-                
-                socket.emit('subscribe', {'hashtag':currentHashtag});
+                socket.emit('subscribe', {'hashtag': adminHandler.getHashtag()});
             }
 
             return false;
         });
-
-        /*$('#tweets-content').on('click', '.approve-btn', function() {
-                var parent = $(this).parents('.tweet');
-
-                var approvedTweet = {
-                    'tweet': parent.find('.tweet-content').text(), 
-                    'username': parent.find('.user').text(), 
-                    'image': parent.find('img').attr('src')
-                };
-                
-                var approvedMessage = {
-                    'tweet': approvedTweet,
-                    'hashtag': currentHashtag 
-                };
-    
-                socket.emit('approve', approvedMessage);
-                
-                parent.fadeOut('fast');
-                
-                appendApproved(approvedTweet,  $("#approved-tweets-content"));
-        });*/        
     });
 </script>
 </body>
