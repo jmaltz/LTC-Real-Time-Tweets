@@ -9,26 +9,13 @@ function appendTweets(tweetsToAppend){
     
         console.log("JSON Error");
         return;
-    
-    }
-    
-    for(var i = 0; i < tweetsToAppend.length; i++) {
 
-        html += '<div class="tweet">' +
-                  '<div class="left-image pull-left">' +
-                    '<img src="' + tweetsToAppend[i].image + '">' +
-                  '</div>' +
-                  '<div class="individual-tweet pull-left">' +
-                    '<div class="user">' + tweetsToAppend[i].from + '</div>' +
-                    '<div class="tweet-content">' + tweetsToAppend[i].text + '</div>' +
-                  '</div>' +
-                  '<div class="approve-tweet pull-right">' +
-                    '<button class="btn btn-success approve-btn">Approve</button>' +
-                  '</div>' +
-                '</div>';
     }
     
-    $('#tweets-content').prepend($(html));
+
+    for(var i = 0; i < tweetsToAppend.length; i++) {
+				adminTweets.add(tweetsToAppend[i]);
+    }
 }
 
 function appendApproved(tweetToAppend, appendTo) {
