@@ -23,7 +23,7 @@ badModel.connect(function(error){
 	}
 });
 
-var badAuth = new Model.model(config.badAuth);
+var badAuth = new Model.model(config.badDbAuth);
 badAuth.connect(function(error){
 	if(error){
 		console.log('We got an error with the bad Auth ' + error);
