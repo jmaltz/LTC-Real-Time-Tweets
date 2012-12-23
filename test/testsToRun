@@ -1,0 +1,8 @@
+Test inserts
+//test a null value
+//test an undefined value
+//test one tweet
+//test two tweets
+//test one tweet in not an array (just object)
+//test inserting the same tweet twice (how do I want to deal with this?? Probably just generate the Id based off of the information in the tweet)
+//
