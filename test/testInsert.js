@@ -132,39 +132,31 @@ var runTests = function(error){
 
 		test('Inserting undefined should give an error', function(done){	
 			model.addApprovedTweets(undefinedRecord, function(error, result){
-				console.log(error == true + " is error");
-				//assert.ifError(error);	
+				assert.ok(error);	
 				done();		
 			});
 		});
 
 		var mixedRecords = [fifthRecord, undefined];
-		model.addApprovedTweets(mixedRecords, function(error, result){
-			if(!error){
-				console.log('No error on adding mixed records');
-			}
-			else{
-				console.log('Error adding mixed records');
-			}
+		test('Inserting records where one of them is undefined should throw an error', function(done){	
+			model.addApprovedTweets(mixedRecords, function(error, result){
+				assert.ok(error);	
+				done();		
+			});
+		});
 		
+		test('Inserting records without an error should throw an error', function(done){	
+			model.addApprovedTweets(sixthRecord, function(error, result){
+				assert.ok(error);
+				done();	
+			});
 		});
-			
-		model.addApprovedTweets(sixthRecord, function(error, result){
-			if(!error){
-				console.log('No errors approving sixthRecord');
-			}
-			else{
-				console.log('We had an error with error ' + error)
-			}
-		});
-
-		model.addApprovedTweets(seventhRecord, function(error, result){
-			if(!error){
-				console.log('No errors approving seventhRecord');
-			}
-			else{
-				console.log('We had an error approving seventh record with error ' + error)
-			}
+	
+		test('Inserting records with incomplete tweets should throw an error', function(done){	
+			model.addApprovedTweets(seventhRecord, function(error, result){
+				assert.ok(error);
+				done();
+			});
 		});
 	});
 }
