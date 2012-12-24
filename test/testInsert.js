@@ -108,7 +108,9 @@ var runTests = function(error){
 		var oneRecord = [firstRecord];
 
 		test('One tweet should be inserted without error', function(done){
-			model.addApprovedTweets(oneRecord, function(error, result){	
+			model.addApprovedTweets(oneRecord, function(error, result){
+				assert.equal(result.length, 1);	
+				assert.equal(result[0].affectedRows, 1);	
 				assert.ifError(error);
 				done();
 			});	
@@ -118,6 +120,11 @@ var runTests = function(error){
 
 		test('Two valid tweets should be inserted without error', function(done){
 			model.addApprovedTweets(twoRecords, function(error, result){
+				assert.equal(result.length, 2);
+
+				for(var i = 0; i < result.length; i++){
+					assert.equal(result[i].affectedRows, 1);
+				}
 				assert.notEqual(error, true);
 				done();
 			});
@@ -125,6 +132,8 @@ var runTests = function(error){
 
 		test('One valid tweet in an array should be inserted without error', function(done){	
 			model.addApprovedTweets(fourthRecord, function(error, result){
+				assert.equal(result.length, 1);
+				assert.equal(result[0].affectedRows, 1);
 				assert.notEqual(error, true);
 				done();			
 			});
