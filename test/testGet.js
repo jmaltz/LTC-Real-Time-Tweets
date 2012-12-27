@@ -5,7 +5,7 @@ var assert = require('assert')
 
 var model = new Model.model(config.testDb);
 suite('Read tests setup', function(){
-	dbSetup.setup();
+	//dbSetup.setup();
 
 	test('connect to database', function(done){
 
@@ -31,9 +31,6 @@ var runTests = function(){
 		var hashtagWithOneRecord;
 		var oneRecordExpectation;
 
-		var hashtagWithSpaces;
-		var spacesExpectation;	
-
 		var hashtagWithCamelCase;
 		var camelCaseExpectation;
 	
@@ -53,68 +50,52 @@ var runTests = function(){
 			hashtagWithOneRecord = 'single';
 			oneRecordExpectation = [{
 				id: '-6'
-				,text: 'Test'
-				,username: 'Test'
+				,text: 'Test #single'
+				,username: 'negative six'
 				,image: 'undefined'
-				,hashtag: 'single'
 			}];
 			
 			
-			hashtagWithSpaces = 'hashtag with spaces';
-			spacesExpectation = [{
-				id: -5
-				,text: 'Test'
-				,username: 'Test'
-				,image: 'undefined'
-				,hashtag: hashtagWithSpaces
-			}];	
-
 			hashtagWithCamelCase = 'camelCase';
 			camelCaseExpectation = [{
 				id: -7
-				,text: 'Test'
-				,username: 'Test'
+				,text: 'Test #camelCase'
+				,username: 'negative seven'
 				,image: 'undefined'
-				,hashtag: hashtagWithCamelCase.toLowerCase()
 			}
 			,{
 				id: -8
-				,text: 'Test'
-				,username: 'Test'
+				,text: 'Test #camelcase'
+				,username: 'negative eight'
 				,image: 'undefined'
-				,hashtag: hashtagWithCamelCase
 			}];
 			
 			hashtagWithUnderscores = 'unique_hashtag';
 			underscoresExpectation = [{
 				id: -4
-				,text: 'Test'
-				,username: 'Test'
+				,text: 'Test #unique_hashtag'
+				,username: 'negative four'
 				,image: 'undefined'
-				,hashtag: hashtagWithUnderscores
 			}];
 			
 			hashtagWithMultipleRecords = 'multiple';
 			multipleRecordsExpectation = [{
 				id: -1
-				,text: 'negative one'
-				,username: 'Test'
+				,text: 'Test #multiple'
+				,username: 'negative one'
 				,image: 'undefined'
-				,hashtag: hashtagWithMultipleRecords
 			}
 			,{
 				id: -2
-				,text: 'negative two'
-				,username: 'Test'
+				,text: 'Test #multiple'
+				,username: 'negative two'
 				,image: 'undefined'
-				,hashtag: hashtagWithMultipleRecords
 			}
 			,{
 				id: -3
-				,text: 'negative three'
-				,username: 'Test'
+				,text: 'Test #multiple'
+				,username: 'negative three'
 				,image: 'undefined'
-				,hashtag: hashtagWithMultipleRecords
 			}];
 			
 			hashtagWithNoRecords = 'none';
@@ -130,15 +111,6 @@ var runTests = function(){
 				assert.ifError(error);
 				assert.equal(results.length, 1);
 				assert.deepEqual(results, oneRecordExpectation); 
-				done();
-			});
-		});
-	
-		test('Hashtag with spaces should return one result', function(done){
-			model.getApprovedTweets(hashtagWithSpaces, function(error, results){
-				assert.ifError(error);
-				assert.equal(results.length, 1);
-				assert.deepEqual(results, spacesExpectation);
 				done();
 			});
 		});

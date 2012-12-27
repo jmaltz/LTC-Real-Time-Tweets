@@ -1,12 +1,12 @@
-var Model = require('../lib/tweetsModel.js'), 
-config = require('../lib/config.js').config,
-assert = require('assert'),
-setup = require('./setupTestDatabase.js');
+var Model = require('../lib/tweetsModel.js') 
+,config = require('../lib/config.js').config
+,assert = require('assert')
+,dbSetup = require('./setupTestDatabase.js');
 
 
 var model = new Model.model(config.testDb);
 suite('Insertion Tests Connection', function(){
-	setup.setup();
+	dbSetup.setup();
 
 	test('connect to database', function(done){
 		model.connect(function(error, result){
@@ -27,97 +27,104 @@ var runTests = function(){
 	
 	suite('Test insertions', function(){
 
-		var tweetOne = {
-			'text': 'tweet one',
-			'from': 'jmaltz',
-			'image': 'http://google.com',
-			'id': 1
-		};
-		var tweetTwo = {
-			'text': 'tweet two',
-			'from': 'jmaltz',
-			'image': 'http://google.com',
-			'id': 2
-		};
+		var tweetOne;
+		var tweetTwo;
+		var tweetThree;
+		var tweetFour;
+		var tweetFive;
+		var unfilledTweet;
 
-		var tweetThree = {
-			'text': 'tweet three',
-			'from': 'jmaltz',
-			'image': 'http://google.com',
-			'id': 3
-		};
+		var oneRecordHashtag;
+		var twoRecordsHashtag;
+		var nonArrayHashtag;
+		var mixedRecordsHashtag;
+		var unfilledRecordHashtag;
 
-		var tweetFour = {
-			'text': 'tweet four',
-			'from': 'jmaltz',
-			'image': 'http://google.com',
-			'id': 4
-		};
+		var oneRecord;
+		var oneRecordTweets;
 
-		var tweetFive = {
-			'text': 'tweet five',
-			'from': 'jmaltz',
-			'image': 'http://google.com',
-			'id': 5
-		};
+		var twoRecords;
+		var twoRecordsTweets;
+
+		var mixedRecords;
+		var mixedRecordsTweets;
+	
+		var undefinedRecord;
+		var unfilledRecord;
+		setup(function(){
+
+			oneRecordHashtag = 'testOne';
+			twoRecordsHashtag = 'testTwo';
+			nonArrayHashtag = 'testThree';
+			mixedRecordsHashtag = 'testFour';
+			unfilledRecordHashtag = 'testFive';
 
 
-		var unfilledTweet = {
-			'from': 'jmaltz',
-			'image': 'http://google.com',
-			'id': 5
-		};
+			tweetOne = {
+				'text': 'tweet one #' + oneRecordHashtag,
+				'username': 'jmaltz',
+				'image': 'http://google.com',
+				'id': 1
+			};
+			
+			tweetTwo = {
+				'text': 'tweet two #' + twoRecordsHashtag,
+				'username': 'jmaltz',
+				'image': 'http://google.com',
+				'id': 2
+			};
+
+			tweetThree = {
+				'text': 'tweet three #' + twoRecordsHashtag,
+				'username': 'jmaltz',
+				'image': 'http://google.com',
+				'id': 3
+			};
+
+			tweetFour = {
+				'text': 'tweet four #' + nonArrayHashtag,
+				'username': 'jmaltz',
+				'image': 'http://google.com',
+				'id': 4
+			};
+
+			tweetFive = {
+				'text': 'tweet five #' + mixedRecordsHashtag,
+				'username': 'jmaltz',
+				'image': 'http://google.com',
+				'id': 5
+			};
 
 
+			unfilledTweet = {
+				'username': 'jmaltz',
+				'image': 'http://google.com',
+				'id': 5
+			};
 
-		var firstRecord = {
-			'hashtag': 'test',
-			'tweet': tweetOne
-		};
+			undefinedRecord = undefined;
+			
+			oneRecord = [tweetOne];
 
-		var secondRecord = {
-			'hashtag': 'test',
-			'tweet': tweetTwo
-		};
-
-		var thirdRecord = {
-			'hashtag': 'test',
-			'tweet': tweetThree
-		};
-
-		var fourthRecord = {
-			'hashtag': 'test',
-			'tweet': tweetFour	
-		};
-
-		var fifthRecord = {
-			'hashtag': 'test',
-			'tweet': tweetFive
-		};
-
-		var sixthRecord = {
-			'tweet': tweetFive
-		};
-
-		var seventhRecord = {
-			'hashtag': 'test',
-			'tweet': unfilledTweet
-		};
-
-		var undefinedRecord = undefined;
-		
-		var oneRecord = [firstRecord];
+			twoRecords = [tweetTwo, tweetThree];
+			mixedRecords = [tweetFive, undefined];
+			unfilledRecord = [unfilledTweet];
+		});
 
 		test('One tweet should be inserted without error', function(done){
 			model.addApprovedTweets(oneRecord, function(error, result){
 				assert.equal(result.length, 1);	
 				assert.equal(result[0].affectedRows, 1);	
 				assert.ifError(error);
-				done();
+				
+				model.getApprovedTweets(oneRecordHashtag, function(error, results){
+					assert.ifError(error);
+					assert.deepEqual(results, oneRecord);	
+					done();
+				});	
 			});	
 		});
 
-		var twoRecords = [secondRecord, thirdRecord];
 
 		test('Two valid tweets should be inserted without error', function(done){
 			model.addApprovedTweets(twoRecords, function(error, result){
@@ -132,7 +139,7 @@ var runTests = function(){
 		});
 
 		test('One valid tweet in an array should be inserted without error', function(done){	
-			model.addApprovedTweets(fourthRecord, function(error, result){
+			model.addApprovedTweets(tweetFour, function(error, result){
 				assert.equal(result.length, 1);
 				assert.equal(result[0].affectedRows, 1);
 				assert.notEqual(error, true);
@@ -147,7 +154,6 @@ var runTests = function(){
 			});
 		});
 
-		var mixedRecords = [fifthRecord, undefined];
 		test('Inserting records where one of them is undefined should throw an error', function(done){	
 			model.addApprovedTweets(mixedRecords, function(error, result){
 				assert.ok(error);	
@@ -155,15 +161,9 @@ var runTests = function(){
 			});
 		});
 		
-		test('Inserting records without an error should throw an error', function(done){	
-			model.addApprovedTweets(sixthRecord, function(error, result){
-				assert.ok(error);
-				done();	
-			});
-		});
-	
+
 		test('Inserting records with incomplete tweets should throw an error', function(done){	
-			model.addApprovedTweets(seventhRecord, function(error, result){
+			model.addApprovedTweets(unfilledRecord, function(error, result){
 				assert.ok(error);
 				done();
 			});
