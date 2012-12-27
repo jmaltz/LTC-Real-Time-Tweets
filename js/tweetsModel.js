@@ -2,7 +2,7 @@ var tweet = Backbone.Model.extend({
 		defaults: {
 				id: 0,
 				text: 'error',
-				from: 'undefined',
+				username: 'undefined',
 				image: 'undefined'
 		},
 		intialize: function(){
