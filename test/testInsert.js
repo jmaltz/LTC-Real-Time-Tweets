@@ -5,24 +5,25 @@ setup = require('./setupTestDatabase.js');
 
 
 var model = new Model.model(config.testDb);
-suite("Insertion Tests", function(done){
+suite('Insertion Tests Connection', function(){
 	setup.setup();
+
 	test('connect to database', function(done){
 		model.connect(function(error, result){
 			if(error){ //this is a hack to allow me to work with callbacks the way I want to
-				assert.ifError(false);
-				done();
+				assert.ifError(error);
 			}
 			else{
-				runTests(error);
-				done();
+				runTests();
 			}
+
+			done();
 		});	
 	});
 });
 
 
-var runTests = function(error){
+var runTests = function(){
 	
 	suite('Test insertions', function(){
 

@@ -1,10 +1,11 @@
 var util = require("../lib/util");
 var assert = require('assert');
 
-suite('Util Methods Tests', function(done){
+suite('Util Methods Tests', function(){
 	var pathnameValidCss;
 	var pathnameValidJs;
 	var pathnameInvalid;
+
 	setup(function(){
 		pathnameValidJs = '/js/herpder.js';
 		pathnameValidCss = '/css/herpderp.css';
