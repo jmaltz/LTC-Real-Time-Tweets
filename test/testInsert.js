@@ -106,13 +106,14 @@ var runTests = function(){
 			
 			oneRecord = [tweetOne];
 
-			twoRecords = [tweetTwo, tweetThree];
+			twoRecords = [tweetThree, tweetTwo];
 			mixedRecords = [tweetFive, undefined];
 			unfilledRecord = [unfilledTweet];
 		});
 
 		test('One tweet should be inserted without error', function(done){
 			model.addApprovedTweets(oneRecord, function(error, result){
+			
 				assert.equal(result.length, 1);	
 				assert.equal(result[0].affectedRows, 1);	
 				assert.ifError(error);
@@ -128,22 +129,36 @@ var runTests = function(){
 
 		test('Two valid tweets should be inserted without error', function(done){
 			model.addApprovedTweets(twoRecords, function(error, result){
+				
+				assert.ifError(error);
 				assert.equal(result.length, 2);
 
 				for(var i = 0; i < result.length; i++){
 					assert.equal(result[i].affectedRows, 1);
 				}
-				assert.notEqual(error, true);
-				done();
+
+				model.getApprovedTweets(twoRecordsHashtag, function(error, results){
+				
+					assert.ifError(error);
+					assert.deepEqual(results, twoRecords);	
+					done();
+				});		
 			});
 		});
 
 		test('One valid tweet in an array should be inserted without error', function(done){	
 			model.addApprovedTweets(tweetFour, function(error, result){
+				
+				assert.ifError(error);
 				assert.equal(result.length, 1);
 				assert.equal(result[0].affectedRows, 1);
-				assert.notEqual(error, true);
-				done();			
+				
+					model.getApprovedTweets(nonArrayHashtag, function(error, results){
+					
+					assert.ifError(error);
+					assert.deepEqual(results, [tweetFour]);	
+					done();
+				});
 			});
 		});
 
