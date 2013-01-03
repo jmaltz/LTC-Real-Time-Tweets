@@ -29,7 +29,7 @@ function appendApproved(tweetToAppend, appendTo) {
              '</div>' +
              '<div class="approved-information">' +
                '<div class="user">' + tweetToAppend.username + '</div>' +
-               '<div class="individual-tweet">' + tweetToAppend.tweet + '</div>'+
+               '<div class="individual-tweet">' + tweetToAppend.tweet.text + '</div>'+
              '</div>' +
            '</div>';
 
@@ -42,7 +42,7 @@ function displayTweets(tweetToAppend) {
                  '<div class="approved-tweet">' +
                    '<div class="approved-information">' +
                      '<div class="user">@' + tweetToAppend.username + '</div>' +
-                     '<div class="individual-tweet">' + tweetToAppend.tweet + '</div>' +
+                     '<div class="individual-tweet">' + tweetToAppend.text + '</div>' +
                    '</div>' +
                  '</div>' +
                '</div>';
