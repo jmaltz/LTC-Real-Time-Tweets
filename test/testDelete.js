@@ -6,7 +6,6 @@ var assert = require('assert')
 var model = new Model.model(config.testDb); 
 suite('Setup delete tests', function(){
 	
-	dbSetup.setup();	
 
 	test('Setup test db', function(done){
 		
@@ -55,6 +54,7 @@ var deleteByTimestamp = function(){
 		var noRecords;
 		
 		setup(function(){
+
 			dbSetup.setup();
 			
 			beforeEverything = new Date(0);
@@ -213,7 +213,9 @@ var deleteByHashtag = function(){
 		var emptyHashtag
 
 		setup(function(){
-			
+		
+			dbSetup.setup();
+		
 			hashtagWithOneRecord = 'single';
 			hashtagWithMultipleRecords = 'multiple';
 			hashtagWithCamelCase = 'camelCase';

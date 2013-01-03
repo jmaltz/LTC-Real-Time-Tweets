@@ -32,6 +32,7 @@ var runTests = function(){
 		var tweetThree;
 		var tweetFour;
 		var tweetFive;
+		var tweetToDuplicate;
 		var unfilledTweet;
 
 		var oneRecordHashtag;
@@ -39,6 +40,7 @@ var runTests = function(){
 		var nonArrayHashtag;
 		var mixedRecordsHashtag;
 		var unfilledRecordHashtag;
+		var duplicateTweetHashtag;
 
 		var oneRecord;
 		var oneRecordTweets;
@@ -51,6 +53,7 @@ var runTests = function(){
 	
 		var undefinedRecord;
 		var unfilledRecord;
+
 		setup(function(){
 
 			oneRecordHashtag = 'testOne';
@@ -58,48 +61,54 @@ var runTests = function(){
 			nonArrayHashtag = 'testThree';
 			mixedRecordsHashtag = 'testFour';
 			unfilledRecordHashtag = 'testFive';
-
+			duplicateTweetHashtag = 'duplicateTweet';
 
 			tweetOne = {
-				'text': 'tweet one #' + oneRecordHashtag,
-				'username': 'jmaltz',
-				'image': 'http://google.com',
-				'id': 1
+				'text': 'tweet one #' + oneRecordHashtag
+				,'username': 'jmaltz'
+				,'image': 'http://google.com'
+				,'id': 1
 			};
 			
 			tweetTwo = {
-				'text': 'tweet two #' + twoRecordsHashtag,
-				'username': 'jmaltz',
-				'image': 'http://google.com',
-				'id': 2
+				'text': 'tweet two #' + twoRecordsHashtag
+				,'username': 'not jmaltz'
+				,'image': 'http://google.com'
+				,'id': 2
 			};
 
 			tweetThree = {
-				'text': 'tweet three #' + twoRecordsHashtag,
-				'username': 'jmaltz',
-				'image': 'http://google.com',
-				'id': 3
+				'text': 'tweet three #' + twoRecordsHashtag
+				,'username': 'sometimes jmaltz'
+				,'image': 'http://google.com'
+				,'id': 3
 			};
 
 			tweetFour = {
-				'text': 'tweet four #' + nonArrayHashtag,
-				'username': 'jmaltz',
-				'image': 'http://google.com',
-				'id': 4
+				'text': 'tweet four #' + nonArrayHashtag
+				,'username': 'jmaltz'
+				,'image': 'http://google.com'
+				,'id': 4
 			};
 
 			tweetFive = {
-				'text': 'tweet five #' + mixedRecordsHashtag,
-				'username': 'jmaltz',
-				'image': 'http://google.com',
-				'id': 5
+				'text': 'tweet five #' + mixedRecordsHashtag
+				,'username': 'jmaltz'
+				,'image': 'http://google.com'
+				,'id': 5
 			};
 
-
+			tweetToDuplicate = {
+				'text': 'Duplicate tweet #' + duplicateTweetHashtag
+				,'username': 'jmaltz'
+				,'image': 'http://google.com'
+				,'id': 6
+			};
+			
 			unfilledTweet = {
-				'username': 'jmaltz',
-				'image': 'http://google.com',
-				'id': 5
+				'username': 'jmaltz'
+				,'image': 'http://google.com'
+				,'id': 7
 			};
 
 			undefinedRecord = undefined;
@@ -112,10 +121,10 @@ var runTests = function(){
 		});
 
 		test('One tweet should be inserted without error', function(done){
-			model.addApprovedTweets(oneRecord, function(error, result){
+			model.addApprovedTweets(oneRecord, function(error, results){
 			
-				assert.equal(result.length, 1);	
-				assert.equal(result[0].affectedRows, 1);	
+				assert.equal(results.length, 1);	
+				assert.equal(results[0].affectedRows, 1);	
 				assert.ifError(error);
 				
 				model.getApprovedTweets(oneRecordHashtag, function(error, results){
@@ -128,13 +137,13 @@ var runTests = function(){
 
 
 		test('Two valid tweets should be inserted without error', function(done){
-			model.addApprovedTweets(twoRecords, function(error, result){
+			model.addApprovedTweets(twoRecords, function(error, results){
 				
 				assert.ifError(error);
-				assert.equal(result.length, 2);
+				assert.equal(results.length, 2);
 
-				for(var i = 0; i < result.length; i++){
-					assert.equal(result[i].affectedRows, 1);
+				for(var i = 0; i < results.length; i++){
+					assert.equal(results[i].affectedRows, 1);
 				}
 
 				model.getApprovedTweets(twoRecordsHashtag, function(error, results){
@@ -147,13 +156,13 @@ var runTests = function(){
 		});
 
 		test('One valid tweet in an array should be inserted without error', function(done){	
-			model.addApprovedTweets(tweetFour, function(error, result){
+			model.addApprovedTweets(tweetFour, function(error, results){
 				
 				assert.ifError(error);
-				assert.equal(result.length, 1);
-				assert.equal(result[0].affectedRows, 1);
+				assert.equal(results.length, 1);
+				assert.equal(results[0].affectedRows, 1);
 				
-					model.getApprovedTweets(nonArrayHashtag, function(error, results){
+				model.getApprovedTweets(nonArrayHashtag, function(error, results){
 					
 					assert.ifError(error);
 					assert.deepEqual(results, [tweetFour]);	
@@ -162,15 +171,31 @@ var runTests = function(){
 			});
 		});
 
+		test('Inserting a duplicate record should update the old record', function(done){
+
+			model.addApprovedTweets(tweetToDuplicate, function(error, results){
+				
+				assert.ifError(error);
+				assert.equal(results.length, 1);
+				assert.equal(results[0].affectedRows, 1);
+
+				model.addApprovedTweets(tweetToDuplicate, function(error, results){
+					
+					assert.ifError(error);
+					done();
+				});	
+			});
+		});
+
 		test('Inserting undefined should give an error', function(done){	
-			model.addApprovedTweets(undefinedRecord, function(error, result){
+			model.addApprovedTweets(undefinedRecord, function(error, results){
 				assert.ok(error);	
 				done();		
 			});
 		});
 
 		test('Inserting records where one of them is undefined should throw an error', function(done){	
-			model.addApprovedTweets(mixedRecords, function(error, result){
+			model.addApprovedTweets(mixedRecords, function(error, results){
 				assert.ok(error);	
 				done();		
 			});
@@ -178,7 +203,7 @@ var runTests = function(){
 		
 
 		test('Inserting records with incomplete tweets should throw an error', function(done){	
-			model.addApprovedTweets(unfilledRecord, function(error, result){
+			model.addApprovedTweets(unfilledRecord, function(error, results){
 				assert.ok(error);
 				done();
 			});
