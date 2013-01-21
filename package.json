@@ -10,16 +10,12 @@
                 "cron": "~1.0.1",
                 "request": "2.12.0",
                 "mysql": "~2.0.0",
-                "async": "~0.1.22",
-		"assert": "~0.4.9",
-		"mocha": "~1.7.4",
+                "async": "~0.1.22"
         },
-	"devDependencies"{
-		"execSync": "~0.0.1"
-	},
-	"engines": {
-		"npm": "1.1"
+	"devDependencies": {
+		"execSync": "~0.0.1",
+		"mocha": "~1.7.4",
+		"assert": "~0.4.9"
 	}
-	
 }
          
