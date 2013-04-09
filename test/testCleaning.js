@@ -46,7 +46,8 @@ var runTests = function(){
 				frequency: 10
 				,threshold: 120
 			};
-			validCronExpression = '0 0/10 * * * *';	
+
+			validCronExpression = '0 */10 * * * *';	
 						
 
 			largeFrequency = {
@@ -161,12 +162,5 @@ var runTests = function(){
 	});
 
 }
-//insert seed the database with some very old tweets (eon time zero) and insert some new ones.  Clean with a 24 hour cleaning window
-	//should clean everything with eon time zero
-//seed the db with only old tweets, put a very short timespan on it
-	//should clear everything
-//clean with nothing in the database
-	//shouldn't throw an error
-
 
 //need to figure out how to test that the cron job runs when it is supposed to
