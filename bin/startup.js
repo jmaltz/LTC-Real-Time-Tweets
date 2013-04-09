@@ -11,11 +11,12 @@ requestHandlers['/'] = handlers.index;
 requestHandlers['/index'] = handlers.index;
 requestHandlers['/admin'] = handlers.admin;
 requestHandlers['/js'] = handlers.asset;
-requestHandlers['/css'] = handlers.asset
+requestHandlers['/css'] = handlers.asset;
+requestHandlers['/img'] = handlers.asset;
 
 server.startServer(router, requestHandlers);
 
-var database = new Model.model(config.mysql);
+var database = new Model.model(config);
 
 //connect to the database
 database.connect(function(error){
