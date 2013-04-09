@@ -6,16 +6,17 @@
              "start": "node ./bin/startup.js"
         },
         "dependencies": {
-                "socket.io": "~0.9",
-                "cron": "~1.0.1",
-                "request": "2.12.0",
-                "mysql": "~2.0.0",
-                "async": "~0.1.22"
+            "socket.io": "~0.9",
+            "cron": "~1.0.1",
+            "request": "2.12.0",
+            "mysql": "~2.0.0",
+            "async": "~0.1.22",
+            "underscore": "1.4.4"
         },
-	"devDependencies": {
-		"execSync": "~0.0.1",
-		"mocha": "~1.7.4",
-		"assert": "~0.4.9"
-	}
+        "devDependencies": {
+            "execSync": "~0.0.1",
+            "mocha": "~1.7.4",
+            "assert": "~0.4.9"
+        }
 }
          
