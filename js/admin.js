@@ -29,8 +29,6 @@ var adminHandler = (function(){
 					var approvedObj = {};
 					approvedObj.hashtag = adminHandler.currentHashtag;
 
-					console.log('hashtag is ' + adminHandler.currentHashtag);
-
 					approvedObj.tweet = this.model;
 					
 					socket.emit('approve', approvedObj);
@@ -118,7 +116,7 @@ var adminHandler = (function(){
 
 				addApprovedList: function(tweets){
 					for(var i = 0; i<tweets.length; i++){
-							this.addApproved(tweets[i]);
+                        this.addApproved(tweets[i]);
 					}
 				},
 

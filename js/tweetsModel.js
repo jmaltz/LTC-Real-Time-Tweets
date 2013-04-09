@@ -5,11 +5,11 @@ var tweet = Backbone.Model.extend({
 				username: 'undefined',
 				image: 'undefined'
 		},
-		intialize: function(){
+		initialize: function(){
 				if(!this.get('id')){
 						this.set({'id': defaults.id});
 				}
-				if(!this.get('tweet')){
+				if(!this.get('text')){
 						this.set({'tweet': defaults.tweet});
 				}
 				if(!this.get('username')){
