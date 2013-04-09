@@ -1,6 +1,5 @@
-*.*~
-config.js
 node_modules
+*.swp
 
 .project
 .build_path
