@@ -13,10 +13,11 @@ requestHandlers['/admin'] = handlers.admin;
 requestHandlers['/js'] = handlers.asset;
 requestHandlers['/css'] = handlers.asset;
 requestHandlers['/img'] = handlers.asset;
+requestHandlers['/tweets'] = handlers.tweets;
 
 server.startServer(router, requestHandlers);
 
-var database = new Model.model(config);
+var database = new Model.model(config.mysql);
 
 //connect to the database
 database.connect(function(error){
