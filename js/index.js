@@ -1,4 +1,4 @@
-var indexHandler = (function(){
+$(function(){
 
     var probability = .01;
 
@@ -16,10 +16,10 @@ var indexHandler = (function(){
     
     var bgImageView = Backbone.View.extend({
 
-        template: _.template('<div class="bgImage">' +
-                 '<img src="<%= source %>" />' +
-                 '</div>'
-                  )
+        tagName: 'span'
+
+
+        , template: _.template('<img src="<%= source %>" />')
         
         , render: function(){
 
@@ -50,7 +50,15 @@ var indexHandler = (function(){
                 url: '/tweets?hashtag=' 
                     + hashtag 
                 , success: function(data){
-                    
+                    var results = data.results;
+                    for(var i = 0; i < results.length; i++){
+                        var result = results[i];
+                        displayedImages.add({
+                            'source': result['profile_image_url']
+                        });
+                        allImages.add(results[i]);
+                    }
+
                 }
             })
 
@@ -59,12 +67,13 @@ var indexHandler = (function(){
         }
 
         , addImage: function(image){
-            
+
             var newImage = new bgImageView({model: image});
-            this.$el.append(newImage); 
+            console.log(newImage.render().el);
+            this.$el.append(newImage.render().el); 
         }
     });
 
     var bg = new background({el: $('#display-area')});
 
-})();
+});
